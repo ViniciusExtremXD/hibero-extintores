@@ -674,32 +674,94 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 .classes__tabs button b{ font-family:var(--disp); font-size:1.8rem; font-weight:800; line-height:1; color:var(--tx); transition:color .3s, transform .4s var(--ease-b); }
 .classes__tabs button span{ font-family:var(--mono); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; }
 .classes__tabs button:hover{ background:var(--red-wash); }
+/* a letra ativa assume a cor real da classe — reforça o A → B → C */
 .classes__tabs button.is-active b{ color:var(--red); transform:translateY(-3px) scale(1.12); }
+.classes__tabs button:nth-child(1).is-active b{ color:#00A24E; }
+.classes__tabs button:nth-child(2).is-active b{ color:#E10A14; }
+.classes__tabs button:nth-child(3).is-active b{ color:#1B6FD1; }
+.classes__tabs button:nth-child(4).is-active b{ color:#EFA400; }
+.classes__tabs button:nth-child(5).is-active b{ color:#15151D; }
 .classes__ink{
   position:absolute; bottom:-1px; left:0; height:3px; width:20%;
-  background:linear-gradient(90deg,var(--red),var(--red-3));
-  transition:transform .55s var(--ease-o);
+  background:var(--red);
+  transition:transform .55s var(--ease-o), background .45s;
 }
 
-.classes__stage{ position:relative; }
+.classes__stage{
+  position:relative; display:grid; grid-template-columns:250px 1fr; gap:54px; align-items:center;
+  padding:44px 50px 46px; min-height:360px; overflow:hidden;
+}
+.classes__panels{ position:relative; }
 .classes__panel{
-  position:absolute; inset:0; display:grid; grid-template-columns:190px 1fr; gap:46px; align-items:center;
-  padding:48px 50px; min-height:350px; overflow:hidden;
-  opacity:0; visibility:hidden; transition:opacity .5s, visibility .5s;
+  position:absolute; inset:0; opacity:0; visibility:hidden;
+  transition:opacity .5s, visibility .5s;
 }
 .classes__panel.is-on{ position:relative; opacity:1; visibility:visible; }
+/* letra da classe como marca d'água — ocupa o vazio à direita */
 .classes__panel::before{
-  content:attr(data-letter); position:absolute; right:3%; top:50%;
+  content:attr(data-letter); position:absolute; right:-2%; top:50%;
   transform:translateY(-50%); pointer-events:none;
   font-family:var(--disp); font-weight:800; font-size:clamp(180px,21vw,300px); line-height:.78;
   letter-spacing:-.06em; color:var(--red); opacity:.06;
 }
-.classes__panel > div{ position:relative; }
-.classes__panel img{ max-height:270px; width:auto; margin:0 auto; filter:drop-shadow(0 22px 30px rgba(14,14,20,.2)); }
-.classes__panel.is-on img{ animation:artIn .85s var(--ease-o) both; }
-.classes__panel h3{ font-size:clamp(1.55rem,3vw,2.15rem); margin-bottom:14px; }
-.classes__panel p{ color:var(--tx-2); font-size:1.03rem; max-width:52ch; }
+.classes__panel h3{ position:relative; font-size:clamp(1.55rem,3vw,2.15rem); margin-bottom:14px; }
+.classes__panel p{ position:relative; color:var(--tx-2); font-size:1.03rem; max-width:50ch; }
 .classes__panel.is-on h3,.classes__panel.is-on p{ animation:fadeUp .75s var(--ease-o) both .12s; }
+
+/* ---- extintor em SVG: um só, com o selo morfando entre as classes ----
+   Redesenhado do zero em vetor: a arte antiga era um PNG chapado e não
+   permitia trocar a classe sem trocar a imagem inteira.                 */
+.classes__art{ margin:0; position:relative; display:grid; place-items:center; }
+.ext{ width:100%; max-width:198px; height:auto; overflow:visible; animation:extFloat 6.5s ease-in-out infinite; }
+@keyframes extFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-13px); } }
+
+.ext__shadow{
+  fill:rgba(14,14,20,.13); transform-box:view-box; transform-origin:100px 452px;
+  animation:extShadow 6.5s ease-in-out infinite;
+}
+@keyframes extShadow{ 0%,100%{ transform:scaleX(1); opacity:.9; } 50%{ transform:scaleX(.88); opacity:.55; } }
+
+.ext__body{ fill:url(#extBody); }
+.ext__gloss{ fill:rgba(255,255,255,.28); }
+.ext__ring{ fill:rgba(0,0,0,.2); }
+.ext__base{ fill:url(#extBase); }
+.ext__neck{ fill:url(#extNeck); }
+.ext__valve{ fill:url(#extDark); }
+.ext__lever,.ext__grip,.ext__hose{ fill:none; stroke:#15151E; stroke-linecap:round; stroke-linejoin:round; }
+.ext__lever{ stroke-width:11; }
+.ext__grip{ stroke-width:9; }
+.ext__hose{ stroke-width:11; }
+.ext__nozzle{ fill:#1B1B26; }
+.ext__gaugeR{ fill:#2A2A34; }
+.ext__gaugeF{ fill:#F5F6F9; }
+.ext__gaugeArc{ fill:none; stroke:var(--green); stroke-width:3; stroke-linecap:round; }
+.ext__needle{
+  fill:none; stroke:var(--red); stroke-width:2.6; stroke-linecap:round;
+  transform-box:view-box; transform-origin:140px 60px;
+  animation:needleSwing 3.6s ease-in-out infinite;
+}
+@keyframes needleSwing{ 0%,100%{ transform:rotate(-16deg); } 50%{ transform:rotate(12deg); } }
+.ext__label{ fill:#FBFBF7; stroke:rgba(14,14,20,.16); stroke-width:1.5; }
+.ext__labelLines rect{ fill:rgba(14,14,20,.2); }
+
+.badge{
+  opacity:0; pointer-events:none;
+  transform:scale(.5) rotate(-32deg);
+  transform-box:view-box; transform-origin:100px 249px;
+  transition:opacity .4s var(--ease-o), transform .62s var(--ease-b);
+}
+.badge.is-on{ opacity:1; transform:none; }
+.badge__sh{ fill:var(--bc,#00A24E); }
+.badge__tx{
+  fill:#fff; font-family:var(--disp); font-weight:800; font-size:30px;
+  text-anchor:middle; letter-spacing:-.02em;
+}
+.badge__tx--sm{ font-size:22px; }
+.badge[data-c="0"]{ --bc:#00A24E; }
+.badge[data-c="1"]{ --bc:#E10A14; }
+.badge[data-c="2"]{ --bc:#1B6FD1; }
+.badge[data-c="3"]{ --bc:#EFA400; }
+.badge[data-c="4"]{ --bc:#15151D; }
 
 /* =========================================================================
    PRODUTOS (faixa preta)
@@ -729,13 +791,19 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
   transition:transform .55s var(--ease), border-color .4s, background .4s;
 }
 .prod:hover{ transform:translateY(-10px); border-color:var(--line-on2); background:var(--ink-3); }
+/* painel da foto em BRANCO: as fotos foram recortadas de fundo branco,
+   então assentam melhor aqui do que sobre o preto do card. */
 .prod figure{
-  margin:0; height:232px; display:grid; place-items:center; padding:26px; position:relative;
-  background:radial-gradient(circle at 50% 62%, rgba(225,10,20,.20), transparent 66%);
-  border-bottom:1px solid var(--line-on);
+  margin:0; height:238px; display:grid; place-items:center; padding:26px; position:relative;
+  background:linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 58%,#EFF1F5 100%);
+  overflow:hidden;
 }
-.prod figure::after{ content:""; position:absolute; inset:auto 0 0 0; height:1px; background:linear-gradient(90deg,transparent,var(--red),transparent); }
-.prod figure img{ max-height:180px; width:auto; filter:drop-shadow(0 20px 26px rgba(0,0,0,.75)); transition:transform .65s var(--ease); }
+.prod figure::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(circle at 50% 108%, rgba(225,10,20,.12), transparent 62%);
+}
+.prod figure::after{ content:""; position:absolute; inset:auto 0 0 0; height:3px; background:linear-gradient(90deg,var(--red-2),var(--red),var(--red-3)); }
+.prod figure img{ position:relative; max-height:184px; width:auto; filter:drop-shadow(0 16px 20px rgba(14,14,20,.28)); transition:transform .65s var(--ease); }
 .prod:hover figure img{ transform:translateY(-8px) scale(1.06); }
 .prod__body{ padding:26px 24px 28px; }
 .prod__body h3{ font-size:1.1rem; margin-bottom:16px; min-height:2.3em; color:#fff; }
@@ -1035,10 +1103,11 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
   .clients{ padding:84px 0; }
   .sec__head{ margin-bottom:44px; }
   .sec__head--row{ flex-direction:column; align-items:flex-start; }
-  .classes__panel{ grid-template-columns:1fr; gap:22px; padding:34px 26px; text-align:center; min-height:0; }
-  .classes__panel::before{ right:50%; transform:translate(50%,-50%); font-size:230px; }
+  .classes__stage{ grid-template-columns:1fr; gap:26px; padding:34px 26px 40px; text-align:center; min-height:0; }
+  .classes__panels{ min-height:170px; }
+  .classes__panel::before{ right:50%; transform:translate(50%,-50%); font-size:220px; }
   .classes__panel p{ margin:0 auto; }
-  .classes__panel img{ max-height:210px; }
+  .ext{ max-width:184px; }
   .classes__tabs button b{ font-size:1.45rem; }
   .classes__tabs button span{ font-size:.58rem; letter-spacing:.1em; }
   .cta__in{ flex-direction:column; align-items:flex-start; padding:56px 24px; }

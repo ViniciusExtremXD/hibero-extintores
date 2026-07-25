@@ -447,21 +447,48 @@
   }
 
   /* ---------------------------------------------------------------------
-     11. Classes de incêndio: abas
+     11. Classes de incêndio: abas + rodízio automático A → B → C → D → K.
+     O extintor é um só; o que troca é o selo (triângulo, quadrado, círculo,
+     estrela, hexágono), que é a simbologia real de cada classe.
      --------------------------------------------------------------------- */
-  var cTabs = $$('#classes-ui .classes__tabs button');
-  var cPanels = $$('#classes-ui .classes__panel');
-  var cInk = $('#classesInk');
-  cTabs.forEach(function (t, i) {
-    t.addEventListener('click', function () {
+  var cUi = $('#classes-ui');
+  if (cUi) {
+    var cTabs = $$('.classes__tabs button', cUi);
+    var cPanels = $$('.classes__panel', cUi);
+    var cBadges = $$('.badge', cUi);
+    var cInk = $('#classesInk');
+    var cColors = ['#00A24E', '#E10A14', '#1B6FD1', '#EFA400', '#15151D'];
+    var ci = 0, cTimer = null, cPaused = false, cStarted = false;
+
+    function setClass(n) {
+      ci = (n + cTabs.length) % cTabs.length;
       cTabs.forEach(function (o, j) {
-        o.classList.toggle('is-active', j === i);
-        o.setAttribute('aria-selected', j === i ? 'true' : 'false');
+        o.classList.toggle('is-active', j === ci);
+        o.setAttribute('aria-selected', j === ci ? 'true' : 'false');
       });
-      cPanels.forEach(function (p, j) { p.classList.toggle('is-on', j === i); });
-      if (cInk) cInk.style.transform = 'translateX(' + (i * 100) + '%)';
+      cPanels.forEach(function (p, j) { p.classList.toggle('is-on', j === ci); });
+      cBadges.forEach(function (b, j) { b.classList.toggle('is-on', j === ci); });
+      if (cInk) {
+        cInk.style.transform = 'translateX(' + (ci * 100) + '%)';
+        cInk.style.background = cColors[ci] || 'var(--red)';
+      }
+    }
+    function startClasses() {
+      clearInterval(cTimer);
+      cTimer = setInterval(function () { if (!cPaused) setClass(ci + 1); }, 3800);
+    }
+
+    cTabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { setClass(i); startClasses(); });
     });
-  });
+    cUi.addEventListener('mouseenter', function () { cPaused = true; });
+    cUi.addEventListener('mouseleave', function () { cPaused = false; });
+
+    var cIO = new IntersectionObserver(function (en) {
+      if (en[0].isIntersecting && !cStarted) { cStarted = true; startClasses(); }
+    }, { threshold: 0.3 });
+    cIO.observe(cUi);
+  }
 
   /* ---------------------------------------------------------------------
      12. Brilho que segue o cursor na faixa de clientes

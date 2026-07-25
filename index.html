@@ -435,41 +435,114 @@
       </div>
 
       <div class="classes__stage">
-        <div class="classes__panel is-on" data-c="0" data-letter="A">
-          <img src="img/classe-a.webp?v=1" alt="Extintor para incêndio classe A" width="184" height="465" loading="lazy">
-          <div>
+
+        <figure class="classes__art" aria-hidden="true">
+          <svg class="ext" viewBox="0 0 200 470" role="img">
+            <defs>
+              <linearGradient id="extBody" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#7E0206"/>
+                <stop offset=".16" stop-color="#C90911"/>
+                <stop offset=".38" stop-color="#FF4F56"/>
+                <stop offset=".55" stop-color="#E10A14"/>
+                <stop offset=".82" stop-color="#A7070E"/>
+                <stop offset="1" stop-color="#6E0105"/>
+              </linearGradient>
+              <linearGradient id="extNeck" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#4C4C57"/>
+                <stop offset=".3" stop-color="#CBCDD6"/>
+                <stop offset=".55" stop-color="#8C8E9A"/>
+                <stop offset="1" stop-color="#3E3E48"/>
+              </linearGradient>
+              <linearGradient id="extDark" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#101018"/>
+                <stop offset=".4" stop-color="#3A3A46"/>
+                <stop offset="1" stop-color="#0C0C12"/>
+              </linearGradient>
+              <linearGradient id="extBase" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#5C0104"/>
+                <stop offset=".4" stop-color="#A9070E"/>
+                <stop offset="1" stop-color="#5C0104"/>
+              </linearGradient>
+            </defs>
+
+            <ellipse class="ext__shadow" cx="100" cy="452" rx="62" ry="10"/>
+
+            <!-- mangueira -->
+            <path class="ext__hose" d="M126 96c30 8 44 34 40 66-4 30-22 44-24 66-2 20 8 32 22 38"/>
+            <rect class="ext__nozzle" x="158" y="258" width="26" height="13" rx="4" transform="rotate(16 171 264)"/>
+
+            <!-- gatilho e alca -->
+            <path class="ext__lever" d="M74 74h64l14-12"/>
+            <path class="ext__grip" d="M78 92h30"/>
+            <rect class="ext__valve" x="72" y="76" width="52" height="26" rx="6"/>
+            <rect class="ext__neck" x="86" y="100" width="28" height="30"/>
+
+            <!-- manometro -->
+            <circle class="ext__gaugeR" cx="140" cy="60" r="15"/>
+            <circle class="ext__gaugeF" cx="140" cy="60" r="11"/>
+            <path class="ext__gaugeArc" d="M132 62a9 9 0 0 1 16 0"/>
+            <path class="ext__needle" d="M140 60l6-6"/>
+
+            <!-- corpo -->
+            <path class="ext__body" d="M48 176c0-30 22-46 52-46s52 16 52 46v230c0 16-10 24-26 24H74c-16 0-26-8-26-24Z"/>
+            <path class="ext__gloss" d="M66 178c0-22 8-34 16-36 6-2 8 4 6 12-6 22-8 40-8 62v170c0 8-6 12-10 8-3-3-4-10-4-18Z"/>
+            <rect class="ext__ring" x="46" y="392" width="108" height="12"/>
+            <rect class="ext__base" x="52" y="418" width="96" height="18" rx="5"/>
+
+            <!-- etiqueta -->
+            <rect class="ext__label" x="62" y="206" width="76" height="118" rx="7"/>
+            <g class="ext__labelLines">
+              <rect x="72" y="298" width="56" height="4" rx="2"/>
+              <rect x="72" y="307" width="40" height="4" rx="2"/>
+            </g>
+
+            <!-- selos das classes: so um visivel por vez -->
+            <g class="badge is-on" data-c="0">
+              <path class="badge__sh" d="M100 224l24 44H76z"/>
+              <text class="badge__tx" x="100" y="264">A</text>
+            </g>
+            <g class="badge" data-c="1">
+              <rect class="badge__sh" x="77" y="226" width="46" height="46" rx="4"/>
+              <text class="badge__tx" x="100" y="261">B</text>
+            </g>
+            <g class="badge" data-c="2">
+              <circle class="badge__sh" cx="100" cy="249" r="24"/>
+              <text class="badge__tx" x="100" y="259">C</text>
+            </g>
+            <g class="badge" data-c="3">
+              <path class="badge__sh" d="M100 223l6.5 17.1 18.2.9-14.2 11.4 4.8 17.6L100 260l-15.3 9.9 4.8-17.6-14.2-11.4 18.2-.9z"/>
+              <text class="badge__tx badge__tx--sm" x="100" y="256">D</text>
+            </g>
+            <g class="badge" data-c="4">
+              <path class="badge__sh" d="M100 224l21.7 12.5v25L100 274l-21.7-12.5v-25z"/>
+              <text class="badge__tx" x="100" y="259">K</text>
+            </g>
+          </svg>
+        </figure>
+
+        <div class="classes__panels">
+          <div class="classes__panel is-on" data-c="0" data-letter="A">
             <h3>Classe A</h3>
             <p>Materiais sólidos comuns, como papel, madeira, tecido e plástico. O fogo gera brasas e cinzas.</p>
           </div>
-        </div>
-        <div class="classes__panel" data-c="1" data-letter="B">
-          <img src="img/classe-b.webp?v=1" alt="Extintor para incêndio classe B" width="184" height="465" loading="lazy">
-          <div>
+          <div class="classes__panel" data-c="1" data-letter="B">
             <h3>Classe B</h3>
             <p>Líquidos inflamáveis como gasolina, álcool, solventes e óleos.</p>
           </div>
-        </div>
-        <div class="classes__panel" data-c="2" data-letter="C">
-          <img src="img/classe-c.webp?v=1" alt="Extintor para incêndio classe C" width="184" height="465" loading="lazy">
-          <div>
+          <div class="classes__panel" data-c="2" data-letter="C">
             <h3>Classe C</h3>
             <p>Equipamentos elétricos energizados — fiações, motores e quadros de energia.</p>
           </div>
-        </div>
-        <div class="classes__panel" data-c="3" data-letter="D">
-          <img src="img/classe-d.webp?v=1" alt="Extintor para incêndio classe D" width="184" height="465" loading="lazy">
-          <div>
+          <div class="classes__panel" data-c="3" data-letter="D">
             <h3>Classe D</h3>
             <p>Metais combustíveis como magnésio, titânio e alumínio em pó — casos industriais.</p>
           </div>
-        </div>
-        <div class="classes__panel" data-c="4" data-letter="K">
-          <img src="img/classe-k.webp?v=1" alt="Extintor para incêndio classe K" width="184" height="465" loading="lazy">
-          <div>
+          <div class="classes__panel" data-c="4" data-letter="K">
             <h3>Classe K</h3>
             <p>Gorduras de cozinha, como óleo vegetal ou animal — usado em cozinhas profissionais.</p>
           </div>
         </div>
+
       </div>
     </div>
   </div>
