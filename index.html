@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    // Sempre abre no topo: recarregar (F5) ou voltar não deve manter a rolagem
+    // antiga. Roda antes da 1ª pintura, então não há "pulo" visível.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (!location.hash) window.scrollTo(0, 0);
+  </script>
+  <title>Hibero Extintores | Recarga, Manutenção e Segurança contra Incêndio desde 1995</title>
+  <meta name="description" content="Recarga e manutenção de extintores, teste hidrostático de mangueiras, hidrantes, sinalização fotoluminescente, centrais de alarme e assessoria para AVCB. Certificação INMETRO nº 110. Desde 1995 em São Paulo.">
+  <meta name="theme-color" content="#08080A">
+  <!-- Canonical aponta para o domínio real da empresa: a cópia do GitHub Pages
+       é só preview e não deve competir com o site do cliente na busca. -->
+  <link rel="canonical" href="https://hiberoextintores.com.br/">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Hibero Extintores">
+  <meta property="og:title" content="Hibero Extintores | Segurança contra incêndio desde 1995">
+  <meta property="og:description" content="Extintores, mangueiras, hidrantes, sinalização e centrais de alarme. Manutenção conforme ABNT, NR-23 e INMETRO nº 110. Cobrimos qualquer orçamento.">
+  <meta property="og:url" content="https://hiberoextintores.com.br/">
+  <meta property="og:image" content="https://viniciusextremxd.github.io/hibero-extintores/img/logo-hibero.png">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png?v=1">
+  <link rel="apple-touch-icon" href="img/favicon-180.png?v=1">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css?v=1">
+
+  <!-- Dados estruturados: negócio local -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Hibero Extintores",
+    "description": "Empresa de segurança contra incêndio desde 1995: recarga e manutenção de extintores, teste hidrostático de mangueiras, equipamentos hidráulicos, sinalização fotoluminescente, centrais de alarme e assessoria para AVCB.",
+    "foundingDate": "1995",
+    "telephone": "+55-11-97232-5189",
+    "image": "img/logo-hibero.png",
+    "areaServed": "São Paulo e região",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "R. Uruguaiana, 64",
+      "addressLocality": "Cidade Ariston Estela Azevedo",
+      "addressRegion": "SP",
+      "addressCountry": "BR"
+    },
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "07:30",
+      "closes": "17:30"
+    }]
+  }
+  </script>
+  <!-- Dados estruturados: navegação do site -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      { "@type": "SiteNavigationElement", "position": 1, "name": "Início", "url": "./#inicio" },
+      { "@type": "SiteNavigationElement", "position": 2, "name": "Serviços", "url": "./#servicos" },
+      { "@type": "SiteNavigationElement", "position": 3, "name": "Classes de incêndio", "url": "./#classes" },
+      { "@type": "SiteNavigationElement", "position": 4, "name": "Produtos", "url": "./#produtos" },
+      { "@type": "SiteNavigationElement", "position": 5, "name": "Sobre nós", "url": "./#sobre" },
+      { "@type": "SiteNavigationElement", "position": 6, "name": "Clientes", "url": "./#clientes" },
+      { "@type": "SiteNavigationElement", "position": 7, "name": "Contato", "url": "./#contato" }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<a class="skip-link" href="#inicio">Pular para o conteúdo</a>
+
+<!-- Barra de progresso de rolagem -->
+<div class="scroll-progress" aria-hidden="true"><i></i></div>
+
+<!-- ============ TOPBAR ============ -->
+<div class="topbar">
+  <div class="wrap topbar__in">
+    <p class="topbar__tag"><span class="dot"></span><span class="topbar__long">Segurança contra incêndio desde <b>1995</b></span><span class="topbar__short">Desde <b>1995</b></span></p>
+    <div class="topbar__links">
+      <a href="tel:+551141816341"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5c0-.6.4-1 1-1h2.6c.5 0 .9.3 1 .8l.8 3c.1.4 0 .8-.3 1L7.7 10.3a13 13 0 0 0 6 6l1.5-1.4c.3-.3.7-.4 1-.3l3 .8c.5.1.8.5.8 1V19c0 .6-.4 1-1 1A15 15 0 0 1 4 5Z"/></svg>(11) 4181-6341</a>
+      <a href="tel:+551141821092"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5c0-.6.4-1 1-1h2.6c.5 0 .9.3 1 .8l.8 3c.1.4 0 .8-.3 1L7.7 10.3a13 13 0 0 0 6 6l1.5-1.4c.3-.3.7-.4 1-.3l3 .8c.5.1.8.5.8 1V19c0 .6-.4 1-1 1A15 15 0 0 1 4 5Z"/></svg>(11) 4182-1092</a>
+      <span class="topbar__hours"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm.8 4.6v4.7l3.4 2-.8 1.4-4.1-2.4V7.6h1.5Z"/></svg>Seg a Sex · 7h30 às 17h30</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="hdr__logo" href="#inicio" aria-label="Hibero Extintores — início">
+      <img src="img/logo-hibero-branco.png?v=1" alt="Hibero Extintores" width="1400" height="412">
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Navegação principal">
+      <a href="#inicio" class="is-active">Início</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#classes">Classes</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#sobre">Sobre nós</a>
+      <a href="#clientes">Clientes</a>
+      <a href="#contato">Contato</a>
+      <a class="btn btn--red nav__cta" href="#contato">Solicitar orçamento</a>
+    </nav>
+
+    <a class="btn btn--red hdr__cta" href="#contato">Solicitar orçamento</a>
+
+    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="inicio">
+  <canvas class="hero__sparks" id="sparks" aria-hidden="true"></canvas>
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__glow" id="heroGlow" aria-hidden="true"></div>
+
+  <div class="wrap hero__in">
+    <div class="hero__slides">
+
+      <article class="slide is-active" data-slide="0">
+        <div class="slide__text">
+          <p class="kicker"><i></i>Desde 1995 · São Paulo</p>
+          <h1 class="split">A sua segurança é a nossa prioridade</h1>
+          <p class="slide__lead">Sistemas contra incêndio e manutenção preventiva e corretiva da sua empresa — com recarga, teste hidrostático e inspeção conforme as normas técnicas vigentes.</p>
+          <ul class="slide__chips">
+            <li>Água pressurizada</li><li>Pó químico seco</li><li>CO₂</li><li>Espuma mecânica</li>
+          </ul>
+        </div>
+        <figure class="slide__art">
+          <span class="slide__ring"></span><span class="slide__ring slide__ring--2"></span>
+          <img src="img/extintores.webp?v=1" alt="Extintores portáteis de diferentes capacidades" width="292" height="440" loading="eager">
+        </figure>
+      </article>
+
+      <article class="slide" data-slide="1">
+        <div class="slide__text">
+          <p class="kicker"><i></i>Hidrantes e mangueiras</p>
+          <h1 class="split">Sua rede de hidrantes em conformidade</h1>
+          <p class="slide__lead">Teste hidrostático em mangueiras de incêndio conforme a NBR 12779/2009, obrigatório a cada 12 meses — garantindo resistência e perfeito funcionamento dos equipamentos.</p>
+          <ul class="slide__chips">
+            <li>NBR 12779/2009</li><li>Mangotinhos</li><li>Esguichos</li><li>Chave Storz</li>
+          </ul>
+        </div>
+        <figure class="slide__art">
+          <span class="slide__ring"></span><span class="slide__ring slide__ring--2"></span>
+          <img src="img/mangueiras.webp?v=1" alt="Mangueira de incêndio com uniões Storz" width="430" height="232" loading="lazy">
+        </figure>
+      </article>
+
+      <article class="slide" data-slide="2">
+        <div class="slide__text">
+          <p class="kicker"><i></i>Sinalização e alarmes</p>
+          <h1 class="split">Rotas de fuga sinalizadas e monitoradas</h1>
+          <p class="slide__lead">Placas fotoluminescentes conforme a IT-20 dos Bombeiros e a NBR 13.434, centrais de alarme com sinal sonoro e visual e acionadores manuais.</p>
+          <ul class="slide__chips">
+            <li>IT-20 · D.E. nº 44.746</li><li>NBR 13.434</li><li>Centrais de alarme</li><li>Botoeiras</li>
+          </ul>
+        </div>
+        <figure class="slide__art">
+          <span class="slide__ring"></span><span class="slide__ring slide__ring--2"></span>
+          <img src="img/placas.webp?v=1" alt="Placas de sinalização de emergência" width="380" height="339" loading="lazy">
+        </figure>
+      </article>
+
+    </div>
+
+    <div class="hero__actions">
+      <a class="btn btn--red btn--lg" href="#contato">Solicitar orçamento</a>
+      <a class="btn btn--ghost btn--lg" href="#servicos">Ver serviços</a>
+    </div>
+
+    <div class="hero__dots" id="heroDots" role="tablist" aria-label="Slides do banner">
+      <button role="tab" aria-selected="true" data-go="0"><i></i><span>Extintores</span></button>
+      <button role="tab" aria-selected="false" data-go="1"><i></i><span>Mangueiras</span></button>
+      <button role="tab" aria-selected="false" data-go="2"><i></i><span>Sinalização</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIFERENCIAIS (invadem o hero) ============ -->
+<section class="diffs" aria-label="Diferenciais">
+  <div class="wrap">
+    <div class="diffs__grid" id="diffs">
+
+      <article class="diff is-on" data-i="0">
+        <div class="diff__ico ico ico--clock" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path class="hand-h" d="M12 12V7.6"/><path class="hand-m" d="M12 12l3.4 2"/></svg>
+        </div>
+        <h3>30 anos de estrada</h3>
+        <p>No segmento de segurança contra incêndio desde 1995, mantendo equipamentos que salvam bens e vidas.</p>
+        <span class="diff__bar"></span>
+      </article>
+
+      <article class="diff" data-i="1">
+        <div class="diff__ico ico ico--shield" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3 5 6v5.5c0 4.2 2.9 7.6 7 9.5 4.1-1.9 7-5.3 7-9.5V6l-7-3Z"/><path class="tick" d="m9 12 2.2 2.2L15.4 10"/></svg>
+        </div>
+        <h3>Certificação INMETRO</h3>
+        <p>Produtos e serviços seguem as normas da ABNT, as exigências do Corpo de Bombeiros e o selo INMETRO nº 110.</p>
+        <span class="diff__bar"></span>
+      </article>
+
+      <article class="diff" data-i="2">
+        <div class="diff__ico ico ico--tag" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 12.4V5a1 1 0 0 1 1-1h7.4c.3 0 .5.1.7.3l6.6 6.6c.4.4.4 1 0 1.4l-7.4 7.4c-.4.4-1 .4-1.4 0l-6.6-6.6a1 1 0 0 1-.3-.7Z"/><circle class="hole" cx="8.6" cy="8.6" r="1.6"/></svg>
+        </div>
+        <h3>Cobrimos qualquer orçamento</h3>
+        <p>Os melhores produtos com qualidade e preço bom. Traga a sua proposta e a gente cobre.</p>
+        <span class="diff__bar"></span>
+      </article>
+
+      <article class="diff" data-i="3">
+        <div class="diff__ico ico ico--stamp" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path class="doc" d="M6 3h8l4 4v14H6V3Z"/><path class="fold" d="M14 3v4h4"/><path class="line1" d="M9 12h6"/><path class="line2" d="M9 15.6h6"/></svg>
+        </div>
+        <h3>Assessoria para AVCB</h3>
+        <p>Elaboração de projetos e acompanhamento do processo junto ao Corpo de Bombeiros.</p>
+        <span class="diff__bar"></span>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<section class="marq" aria-hidden="true">
+  <div class="marq__row">
+    <div class="marq__track">
+      <span>Recarga de extintores</span><i>◆</i><span>Teste hidrostático</span><i>◆</i><span>Mangueiras de incêndio</span><i>◆</i><span>Hidrantes</span><i>◆</i><span>Sinalização fotoluminescente</span><i>◆</i><span>Centrais de alarme</span><i>◆</i>
+      <span>Recarga de extintores</span><i>◆</i><span>Teste hidrostático</span><i>◆</i><span>Mangueiras de incêndio</span><i>◆</i><span>Hidrantes</span><i>◆</i><span>Sinalização fotoluminescente</span><i>◆</i><span>Centrais de alarme</span><i>◆</i>
+    </div>
+  </div>
+  <div class="marq__row marq__row--rev">
+    <div class="marq__track">
+      <span>AVCB</span><i>◆</i><span>NR-23</span><i>◆</i><span>NBR 12779/2009</span><i>◆</i><span>INMETRO nº 110</span><i>◆</i><span>IT-20 dos Bombeiros</span><i>◆</i><span>NBR 13.434</span><i>◆</i>
+      <span>AVCB</span><i>◆</i><span>NR-23</span><i>◆</i><span>NBR 12779/2009</span><i>◆</i><span>INMETRO nº 110</span><i>◆</i><span>IT-20 dos Bombeiros</span><i>◆</i><span>NBR 13.434</span><i>◆</i>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVIÇOS ============ -->
+<section class="sec sec--dark" id="servicos">
+  <div class="wrap">
+    <header class="sec__head reveal">
+      <p class="kicker"><i></i>Nossos serviços</p>
+      <h2 class="split">Um portfólio completo em proteção e combate a incêndios</h2>
+      <p class="sec__lead">Produtos, serviços e assessoria especializada para empresas, comércios, indústrias e condomínios — com qualidade, agilidade e compromisso com a proteção de vidas e patrimônios.</p>
+    </header>
+
+    <div class="svc">
+
+      <article class="svc__hero reveal">
+        <div class="svc__heroText">
+          <p class="kicker kicker--red"><i></i>Serviço em destaque</p>
+          <h3>Manutenção de extintores &amp; assessoria AVCB</h3>
+          <p>Manutenção de extintores portáteis, sobre rodas e sistemas fixos de incêndio — água pressurizada, pó químico seco, espuma mecânica e CO₂. Executamos teste hidrostático em cilindros de alta e baixa pressão, pintura com tinta catalisada, decapagem, inspeções técnicas, elaboração de projetos e assessoria para AVCB junto ao Corpo de Bombeiros.</p>
+          <ul class="ticks">
+            <li>Teste hidrostático em cilindros de alta e baixa pressão</li>
+            <li>Pintura com tinta catalisada e decapagem</li>
+            <li>Elaboração de projetos e acompanhamento do AVCB</li>
+          </ul>
+          <a class="btn btn--red" href="#contato">Solicitar orçamento</a>
+        </div>
+        <figure class="svc__heroArt">
+          <span class="svc__ring"></span>
+          <img src="img/extintor-hero.webp?v=1" alt="Extintor de incêndio em manutenção" width="629" height="629" loading="lazy">
+        </figure>
+      </article>
+
+      <div class="svc__grid" id="svcGrid">
+
+        <article class="card reveal">
+          <div class="card__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3h6v2.2c1.8.8 3 2.6 3 4.7V21H6V9.9c0-2.1 1.2-3.9 3-4.7V3Z"/><path d="M9 12h6"/></svg></div>
+          <h3>Recarga de extintores</h3>
+          <p>Recarga com qualidade, agilidade e conforme as normas técnicas vigentes. Trabalhamos com água pressurizada, pó químico seco, CO₂ e espuma mecânica, além de inspeção técnica, testes e manutenção preventiva.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="15" r="5"/><path d="M14 15h5.5a1.5 1.5 0 0 0 0-3H12"/><path d="M9 10V5a2 2 0 0 1 2-2h4"/></svg></div>
+          <h3>Mangueiras de incêndio</h3>
+          <p>Teste hidrostático conforme a NBR 12779/2009, obrigatório a cada 12 meses. As mangueiras conduzem a água da rede de hidrantes de forma eficiente no combate às chamas.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9l6.4 6.4"/><path d="M16.5 4.5 21 3l-1.5 4.5"/></svg></div>
+          <h3>Consultoria</h3>
+          <p>Consultoria especializada em segurança contra incêndio, auxiliando na adequação às normas técnicas e exigências legais, com soluções personalizadas de prevenção, proteção e regularização.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5V4Z"/><path d="m8.4 12.4 2.2 2.2 4.6-4.6"/></svg></div>
+          <h3>Inspeções</h3>
+          <p>Inspeções mensais conforme a NR-23, garantindo que extintores, hidrantes, mangueiras, macas e demais acessórios de combate a incêndio estejam em perfeito funcionamento.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5v14"/><path d="M4 8h9a4 4 0 0 1 4 4v7"/><path d="M13 15h8"/></svg></div>
+          <h3>Suportes de extintores</h3>
+          <p>Suportes em aço, alumínio, fibra, polietileno e arame — modelos de parede, chão, exposição e veicular, com qualidade, resistência e praticidade para cada tipo de instalação.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M8 15.5 11 10l3 4 2-2.4 2 3.9"/><circle cx="8.6" cy="9" r="1.2"/></svg></div>
+          <h3>Placas de sinalização</h3>
+          <p>Placas fotoluminescentes fabricadas conforme a ABNT NBR 13.434, para orientar rotas de fuga e identificar equipamentos com símbolos, mensagens e cores padronizadas.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 20V9.5a2 2 0 0 1 2-2h1.5V5h5v2.5H16a2 2 0 0 1 2 2V20"/><path d="M4 20h16"/><path d="M12 11.5v4"/></svg></div>
+          <h3>Equipamentos hidráulicos</h3>
+          <p>Hidrantes, mangueiras, mangotinhos, esguichos, sprinklers e componentes essenciais para sistemas de combate a incêndio, seguindo padrões de qualidade e normas técnicas.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4a5.5 5.5 0 0 0-5.5 5.5c0 4-2 5-2 5h15s-2-1-2-5A5.5 5.5 0 0 0 12 4Z"/><path d="M10.4 18a1.8 1.8 0 0 0 3.2 0"/></svg></div>
+          <h3>Centrais de alarme</h3>
+          <p>Centrais de alarme de incêndio que detectam e alertam rapidamente situações de risco, com sinais sonoros e visuais que auxiliam na evacuação e na prevenção de acidentes.</p>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLASSES DE INCÊNDIO ============ -->
+<section class="sec sec--light" id="classes">
+  <div class="wrap">
+    <header class="sec__head reveal">
+      <p class="kicker"><i></i>Tipos de extintores</p>
+      <h2 class="split">Classificação de incêndio</h2>
+      <p class="sec__lead">Trabalhamos com toda a linha de equipamentos. Cada classe pede um agente extintor diferente — clique para ver.</p>
+    </header>
+
+    <div class="classes reveal" id="classes-ui">
+      <div class="classes__tabs" role="tablist" aria-label="Classes de incêndio">
+        <button role="tab" class="is-active" aria-selected="true" data-c="0"><b>A</b><span>Sólidos</span></button>
+        <button role="tab" aria-selected="false" data-c="1"><b>B</b><span>Líquidos</span></button>
+        <button role="tab" aria-selected="false" data-c="2"><b>C</b><span>Elétricos</span></button>
+        <button role="tab" aria-selected="false" data-c="3"><b>D</b><span>Metais</span></button>
+        <button role="tab" aria-selected="false" data-c="4"><b>K</b><span>Gorduras</span></button>
+        <span class="classes__ink" id="classesInk"></span>
+      </div>
+
+      <div class="classes__stage">
+        <div class="classes__panel is-on" data-c="0" data-letter="A">
+          <img src="img/classe-a.webp?v=1" alt="Extintor para incêndio classe A" width="184" height="465" loading="lazy">
+          <div>
+            <h3>Classe A</h3>
+            <p>Materiais sólidos comuns, como papel, madeira, tecido e plástico. O fogo gera brasas e cinzas.</p>
+          </div>
+        </div>
+        <div class="classes__panel" data-c="1" data-letter="B">
+          <img src="img/classe-b.webp?v=1" alt="Extintor para incêndio classe B" width="184" height="465" loading="lazy">
+          <div>
+            <h3>Classe B</h3>
+            <p>Líquidos inflamáveis como gasolina, álcool, solventes e óleos.</p>
+          </div>
+        </div>
+        <div class="classes__panel" data-c="2" data-letter="C">
+          <img src="img/classe-c.webp?v=1" alt="Extintor para incêndio classe C" width="184" height="465" loading="lazy">
+          <div>
+            <h3>Classe C</h3>
+            <p>Equipamentos elétricos energizados — fiações, motores e quadros de energia.</p>
+          </div>
+        </div>
+        <div class="classes__panel" data-c="3" data-letter="D">
+          <img src="img/classe-d.webp?v=1" alt="Extintor para incêndio classe D" width="184" height="465" loading="lazy">
+          <div>
+            <h3>Classe D</h3>
+            <p>Metais combustíveis como magnésio, titânio e alumínio em pó — casos industriais.</p>
+          </div>
+        </div>
+        <div class="classes__panel" data-c="4" data-letter="K">
+          <img src="img/classe-k.webp?v=1" alt="Extintor para incêndio classe K" width="184" height="465" loading="lazy">
+          <div>
+            <h3>Classe K</h3>
+            <p>Gorduras de cozinha, como óleo vegetal ou animal — usado em cozinhas profissionais.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUTOS ============ -->
+<section class="sec sec--dark sec--flush" id="produtos">
+  <div class="wrap">
+    <header class="sec__head sec__head--row reveal">
+      <div>
+        <p class="kicker"><i></i>Showroom</p>
+        <h2 class="split">Os melhores produtos com qualidade e preço bom</h2>
+      </div>
+      <div class="carou__nav">
+        <button id="prodPrev" aria-label="Produto anterior"><svg viewBox="0 0 24 24"><path d="m14.5 5-7 7 7 7"/></svg></button>
+        <button id="prodNext" aria-label="Próximo produto"><svg viewBox="0 0 24 24"><path d="m9.5 5 7 7-7 7"/></svg></button>
+      </div>
+    </header>
+  </div>
+
+  <div class="carou reveal" id="prodCarou">
+    <div class="carou__track" id="prodTrack">
+
+      <article class="prod">
+        <figure><img src="img/extintores.webp?v=1" alt="Extintores portáteis e sobre rodas" width="292" height="440" loading="lazy"></figure>
+        <div class="prod__body">
+          <h3>Extintores portáteis e sobre rodas</h3>
+          <ul>
+            <li>ABC — Fosfato Monoamônico</li>
+            <li>BC — Bicarbonato de Sódio</li>
+            <li>CB — Bicarbonato de Potássio (Púrpura K)</li>
+            <li>CO₂ — Gás Carbônico</li>
+            <li>Espuma Mecânica</li>
+            <li>Água</li>
+          </ul>
+          <a class="lnk" href="#contato">Solicitar orçamento <svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+
+      <article class="prod">
+        <figure><img src="img/mangueiras.webp?v=1" alt="Mangueiras de combate a incêndio" width="430" height="232" loading="lazy"></figure>
+        <div class="prod__body">
+          <h3>Mangueiras de combate a incêndio</h3>
+          <ul>
+            <li>Tipo 1 Predial</li>
+            <li>Tipo 2 Sintex N / Sintex R</li>
+            <li>Tipo 3 Sintex Dupla Capa</li>
+            <li>Tipo 4 Sintex Poly / Sintex Plast</li>
+            <li>Tipo 5 Sintex Premium / Florestal / HV</li>
+          </ul>
+          <a class="lnk" href="#contato">Solicitar orçamento <svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+
+      <article class="prod">
+        <figure><img src="img/hidraulico.webp?v=1" alt="Material hidráulico para combate a incêndio" width="219" height="338" loading="lazy"></figure>
+        <div class="prod__body">
+          <h3>Material hidráulico</h3>
+          <ul>
+            <li>Chave Storz</li>
+            <li>Válvula bloco</li>
+            <li>Adaptadores e flanges</li>
+            <li>Esguichos</li>
+          </ul>
+          <a class="lnk" href="#contato">Solicitar orçamento <svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+
+      <article class="prod">
+        <figure><img src="img/placas.webp?v=1" alt="Placas de sinalização fotoluminescente" width="380" height="339" loading="lazy"></figure>
+        <div class="prod__body">
+          <h3>Placas de sinalização</h3>
+          <ul>
+            <li>Fotoluminescentes, diversos modelos</li>
+            <li>Modelos a pedido do cliente</li>
+            <li>IT-20 dos Bombeiros — D.E. nº 44.746</li>
+            <li>NBR 13.434</li>
+          </ul>
+          <a class="lnk" href="#contato">Solicitar orçamento <svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+
+      <article class="prod">
+        <figure><img src="img/espuma.webp?v=1" alt="Proporcionador de espuma" width="369" height="365" loading="lazy"></figure>
+        <div class="prod__body">
+          <h3>Proporcionador de espuma</h3>
+          <ul>
+            <li>Proporcionadores entre linhas</li>
+            <li>Acoplamento em mangueiras de incêndio</li>
+          </ul>
+          <a class="lnk" href="#contato">Solicitar orçamento <svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+
+      <article class="prod">
+        <figure><img src="img/botoeiras.webp?v=1" alt="Acionador manual de alarme de incêndio" width="372" height="338" loading="lazy"></figure>
+        <div class="prod__body">
+          <h3>Acionadores manuais</h3>
+          <ul>
+            <li>Dispositivos de acionamento manual</li>
+            <li>Controlam circuitos elétricos</li>
+            <li>Ligam/desligam cargas ou operam sistemas de segurança</li>
+          </ul>
+          <a class="lnk" href="#contato">Solicitar orçamento <svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOBRE ============ -->
+<section class="sec sec--light" id="sobre">
+  <div class="wrap">
+    <div class="about">
+      <div class="about__text reveal">
+        <p class="kicker"><i></i>Sobre nós</p>
+        <h2 class="split">Trinta anos protegendo vidas e patrimônios</h2>
+        <p>A Hibero Extintores atua no segmento de segurança contra incêndio desde 1995, oferecendo produtos, serviços e assessoria técnica voltados à proteção de vidas e patrimônios. Fundada com o compromisso de atender às necessidades do mercado com qualidade, confiança e eficiência, a empresa se destaca pela excelência em manutenção de extintores e equipamentos contra incêndio.</p>
+        <p>Todos os serviços e produtos fornecidos seguem rigorosamente as normas da ABNT, exigências do Corpo de Bombeiros e certificações do INMETRO, garantindo total segurança e conformidade. Nossa equipe é formada por profissionais capacitados, focados em qualidade, responsabilidade e dedicação em cada atendimento.</p>
+
+        <div class="stats" id="stats">
+          <div class="stat"><b data-count="30" data-suffix=" anos">0</b><span>de mercado desde 1995</span></div>
+          <div class="stat"><b data-pre="+ " data-count="1500">0</b><span>clientes atendidos</span></div>
+          <div class="stat"><b data-pre="+ " data-count="8000">0</b><span>produtos vendidos</span></div>
+        </div>
+      </div>
+
+      <div class="mvv">
+        <article class="mvv__c reveal">
+          <span class="mvv__n">01</span>
+          <h3>Missão</h3>
+          <p>Suprir as necessidades do cliente da maneira mais competente e eficaz. Manter equipamentos que salvam bens e vidas em perfeito funcionamento e orientar a todos da importância da prevenção.</p>
+        </article>
+        <article class="mvv__c reveal">
+          <span class="mvv__n">02</span>
+          <h3>Visão</h3>
+          <p>Tornar-se a mais completa empresa especializada em equipamentos e prestação de serviços na prevenção e combate ao incêndio.</p>
+        </article>
+        <article class="mvv__c reveal">
+          <span class="mvv__n">03</span>
+          <h3>Valores</h3>
+          <p>Compromisso com nossos clientes na busca incessante por um patamar sempre superior. Trabalhando com total transparência, transmitindo confiança e honestidade.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CERTIFICAÇÕES ============ -->
+<section class="sec sec--dark certs">
+  <div class="wrap">
+    <header class="sec__head sec__head--center reveal">
+      <p class="kicker"><i></i>Conformidade</p>
+      <h2 class="split">Certificada pelos órgãos competentes</h2>
+    </header>
+    <div class="certs__grid reveal">
+      <div class="cert"><b>INMETRO</b><span>Nº 110</span></div>
+      <div class="cert"><b>NBR</b><span>12779/2009</span></div>
+      <div class="cert"><b>NR</b><span>23</span></div>
+      <div class="cert"><b>IT-20</b><span>D.E. nº 44.746</span></div>
+      <div class="cert"><b>NBR</b><span>13.434</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLIENTES ============ -->
+<section class="sec sec--light" id="clientes">
+  <div class="wrap">
+    <header class="sec__head sec__head--center reveal">
+      <p class="kicker"><i></i>Prova de confiança</p>
+      <h2 class="split">Alguns de nossos clientes</h2>
+    </header>
+    <div class="clients reveal">
+      <figure class="client"><img src="img/cliente-exercito.webp?v=1" alt="Exército Brasileiro" width="390" height="455" loading="lazy"></figure>
+      <figure class="client"><img src="img/cliente-marinha.webp?v=1" alt="Marinha do Brasil" width="330" height="412" loading="lazy"></figure>
+      <figure class="client"><img src="img/cliente-fazenda.webp?v=1" alt="Ministério da Fazenda" width="479" height="133" loading="lazy"></figure>
+      <figure class="client"><img src="img/cliente-cptm.webp?v=1" alt="CPTM" width="488" height="142" loading="lazy"></figure>
+      <figure class="client"><img src="img/cliente-gerdau.webp?v=1" alt="Gerdau" width="497" height="142" loading="lazy"></figure>
+      <figure class="client"><img src="img/cliente-osasco.webp?v=1" alt="Osasco Plaza Shopping" width="427" height="184" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <div class="cta__stripes" aria-hidden="true"></div>
+  <div class="wrap cta__in reveal">
+    <div>
+      <p class="kicker kicker--onred"><i></i>Trabalhamos com marcas reconhecidas pela inovação e qualidade</p>
+      <h2>Cobrimos qualquer orçamento</h2>
+    </div>
+    <a class="btn btn--black btn--lg" href="#contato">Solicitar orçamento</a>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec sec--dark" id="faq">
+  <div class="wrap">
+    <header class="sec__head sec__head--center reveal">
+      <p class="kicker"><i></i>Dúvidas frequentes</p>
+      <h2 class="split">Perguntas que a gente ouve todo dia</h2>
+    </header>
+
+    <div class="faq reveal" id="faq-ui">
+      <details class="faq__i" open>
+        <summary>O teste hidrostático das mangueiras é obrigatório?<i></i></summary>
+        <div class="faq__a"><p>Sim. A NBR 12779/2009 determina o teste hidrostático em mangueiras de incêndio a cada 12 meses, garantindo segurança, resistência e o perfeito funcionamento dos equipamentos.</p></div>
+      </details>
+      <details class="faq__i">
+        <summary>Vocês ajudam no processo do AVCB?<i></i></summary>
+        <div class="faq__a"><p>Sim. Fazemos elaboração de projetos e assessoria para AVCB junto ao Corpo de Bombeiros, além de inspeções técnicas e adequação às exigências legais.</p></div>
+      </details>
+      <details class="faq__i">
+        <summary>Com que frequência devo fazer a inspeção dos equipamentos?<i></i></summary>
+        <div class="faq__a"><p>Realizamos inspeções mensais conforme a NR-23, verificando extintores, hidrantes, mangueiras, macas, acessórios e demais equipamentos de combate a incêndio.</p></div>
+      </details>
+      <details class="faq__i">
+        <summary>Quais tipos de extintores vocês recarregam?<i></i></summary>
+        <div class="faq__a"><p>Água pressurizada, pó químico seco, CO₂ e espuma mecânica — em extintores portáteis, sobre rodas e sistemas fixos de incêndio.</p></div>
+      </details>
+      <details class="faq__i">
+        <summary>Vocês atendem quais tipos de cliente?<i></i></summary>
+        <div class="faq__a"><p>Empresas, comércios, indústrias, condomínios e residências. O portfólio cobre desde a recarga de um extintor até a adequação completa de um sistema de combate a incêndio.</p></div>
+      </details>
+      <details class="faq__i">
+        <summary>Como funciona o orçamento?<i></i></summary>
+        <div class="faq__a"><p>Fale com a gente pelo WhatsApp ou pelo formulário aqui embaixo com o que você precisa. Cobrimos qualquer orçamento.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTATO ============ -->
+<section class="sec sec--light" id="contato">
+  <div class="wrap">
+    <header class="sec__head reveal">
+      <p class="kicker"><i></i>Contato</p>
+      <h2 class="split">Vamos cuidar da segurança da sua empresa</h2>
+      <p class="sec__lead">Preencha os dados abaixo e a gente continua a conversa direto no WhatsApp — ou ligue para um dos nossos telefones.</p>
+    </header>
+
+    <div class="contact">
+      <form class="form reveal" id="form" novalidate>
+        <div class="f2">
+          <label class="fld"><span>Nome</span><input type="text" name="nome" required placeholder="Seu nome"></label>
+          <label class="fld"><span>WhatsApp / telefone</span><input type="tel" name="fone" required placeholder="(11) 90000-0000"></label>
+        </div>
+        <div class="f2">
+          <label class="fld"><span>Empresa <i>(opcional)</i></span><input type="text" name="empresa" placeholder="Nome da empresa"></label>
+          <label class="fld"><span>Assunto</span>
+            <select name="assunto">
+              <option>Recarga de extintores</option>
+              <option>Manutenção de extintores</option>
+              <option>Mangueiras de incêndio</option>
+              <option>Consultoria</option>
+              <option>Inspeções</option>
+              <option>Suportes de extintores</option>
+              <option>Placas de sinalização</option>
+              <option>Equipamentos hidráulicos</option>
+              <option>Centrais de alarme</option>
+              <option>Assessoria para AVCB</option>
+              <option>Outro assunto</option>
+            </select>
+          </label>
+        </div>
+        <label class="fld"><span>Mensagem</span><textarea name="msg" rows="4" placeholder="Conte o que você precisa: quantidade de extintores, tipo de equipamento, endereço do atendimento…"></textarea></label>
+        <button class="btn btn--red btn--lg btn--full" type="submit">
+          <svg viewBox="0 0 24 24" class="btn__wa" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.5-.6a11 11 0 0 1-4.3-4c-.3-.5-.8-1.3-.8-2.5 0-1.2.6-1.8.9-2 .2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.2.4.7 1.2 1.4 1.9.9.8 1.6 1 1.9 1.2.2.1.4 0 .5-.1l.8-.9c.2-.2.3-.2.5-.1l1.8.9c.3.1.4.2.5.3 0 .1 0 .4-.2 1Z"/></svg>
+          Enviar pelo WhatsApp
+        </button>
+        <p class="form__note">Ao enviar, abrimos o WhatsApp com a sua mensagem já escrita. Nada é armazenado neste site.</p>
+      </form>
+
+      <aside class="cinfo">
+        <div class="cinfo__card reveal">
+          <div class="cinfo__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></div>
+          <h3>Endereço</h3>
+          <p>R. Uruguaiana, 64<br>Cidade Ariston Estela Azevedo — SP</p>
+        </div>
+        <div class="cinfo__card reveal">
+          <div class="cinfo__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.4V12l3.4 2"/></svg></div>
+          <h3>Horário</h3>
+          <p>Segunda a sexta<br>7h30 às 17h30</p>
+        </div>
+        <div class="cinfo__card reveal">
+          <div class="cinfo__ico ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5c0-.6.4-1 1-1h2.6c.5 0 .9.3 1 .8l.8 3c.1.4 0 .8-.3 1L7.7 10.3a13 13 0 0 0 6 6l1.5-1.4c.3-.3.7-.4 1-.3l3 .8c.5.1.8.5.8 1V19c0 .6-.4 1-1 1A15 15 0 0 1 4 5Z"/></svg></div>
+          <h3>Telefones</h3>
+          <p class="cinfo__fones">
+            <a href="https://wa.me/5511972325189" target="_blank" rel="noopener"><b>WhatsApp</b> (11) 97232-5189</a>
+            <a href="https://wa.me/5511947204401" target="_blank" rel="noopener"><b>WhatsApp</b> (11) 94720-4401</a>
+            <a href="tel:+551141816341"><b>Fixo</b> (11) 4181-6341</a>
+            <a href="tel:+551141821092"><b>Fixo</b> (11) 4182-1092</a>
+          </p>
+        </div>
+      </aside>
+    </div>
+
+    <div class="map reveal">
+      <a class="map__open" href="https://www.google.com/maps/search/?api=1&amp;query=R.+Uruguaiana%2C+64+-+Cidade+Ariston+Estela+Azevedo%2C+SP" target="_blank" rel="noopener">
+        Abrir no Google Maps
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5"/><path d="M19 5 11 13"/><path d="M18.5 14v4.5a1.5 1.5 0 0 1-1.5 1.5H6a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 6 5.5h4.5"/></svg>
+      </a>
+      <iframe title="Mapa — R. Uruguaiana, 64, Cidade Ariston Estela Azevedo, SP" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=R.%20Uruguaiana%2C%2064%20-%20Cidade%20Ariston%20Estela%20Azevedo%2C%20SP&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="ftr">
+  <div class="wrap ftr__in">
+    <div class="ftr__brand">
+      <img src="img/logo-hibero-branco.png?v=1" alt="Hibero Extintores" width="1400" height="412">
+      <p>Segurança contra incêndio desde 1995. Produtos, serviços e assessoria técnica voltados à proteção de vidas e patrimônios.</p>
+    </div>
+
+    <nav class="ftr__nav" aria-label="Navegação do rodapé">
+      <h4>Navegação</h4>
+      <a href="#inicio">Início</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#classes">Classes de incêndio</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#sobre">Sobre nós</a>
+      <a href="#clientes">Clientes</a>
+      <a href="#contato">Contato</a>
+    </nav>
+
+    <div class="ftr__col">
+      <h4>Contato</h4>
+      <a href="https://wa.me/5511972325189" target="_blank" rel="noopener">WhatsApp (11) 97232-5189</a>
+      <a href="https://wa.me/5511947204401" target="_blank" rel="noopener">WhatsApp (11) 94720-4401</a>
+      <a href="tel:+551141816341">Fixo (11) 4181-6341</a>
+      <a href="tel:+551141821092">Fixo (11) 4182-1092</a>
+    </div>
+
+    <div class="ftr__col">
+      <h4>Endereço</h4>
+      <p>R. Uruguaiana, 64<br>Cidade Ariston Estela Azevedo — SP</p>
+      <p>Seg a Sex · 7h30 às 17h30</p>
+    </div>
+  </div>
+
+  <div class="wrap ftr__bar">
+    <p>© <span id="yr">2026</span> Hibero Extintores. Todos os direitos reservados.</p>
+    <p class="ftr__norms">INMETRO nº 110 · NBR 12779/2009 · NR-23 · IT-20 · NBR 13.434</p>
+  </div>
+</footer>
+
+<!-- WhatsApp flutuante -->
+<a class="wa" href="https://wa.me/5511972325189?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <span class="wa__pulse" aria-hidden="true"></span>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.5-.6a11 11 0 0 1-4.3-4c-.3-.5-.8-1.3-.8-2.5 0-1.2.6-1.8.9-2 .2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.2.4.7 1.2 1.4 1.9.9.8 1.6 1 1.9 1.2.2.1.4 0 .5-.1l.8-.9c.2-.2.3-.2.5-.1l1.8.9c.3.1.4.2.5.3 0 .1 0 .4-.2 1Z"/></svg>
+</a>
+
+<!-- Voltar ao topo -->
+<button class="totop" id="totop" aria-label="Voltar ao topo"><svg viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></svg></button>
+
+<script src="js/main.js?v=1"></script>
+</body>
+</html>
