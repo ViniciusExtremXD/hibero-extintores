@@ -149,7 +149,7 @@ h1,h2,h3,h4{ font-family:var(--disp); font-weight:800; line-height:1.06; letter-
 .btn__wa{ width:20px; height:20px; fill:currentColor; }
 
 .lnk{
-  display:inline-flex; align-items:center; gap:8px; margin-top:18px;
+  display:inline-flex; align-items:center; gap:8px; margin-top:12px; padding:10px 0;
   font-family:var(--mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
   color:var(--red);
 }
@@ -244,8 +244,8 @@ h1,h2,h3,h4{ font-family:var(--disp); font-weight:800; line-height:1.06; letter-
 .topbar__in{ display:flex; align-items:center; justify-content:space-between; gap:20px; min-height:42px; position:relative; z-index:1; }
 .topbar__right{ display:flex; align-items:center; gap:22px; }
 .topbar__item{
-  display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
-  font-family:var(--mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
+  display:inline-flex; align-items:center; gap:8px; padding:11px 0; white-space:nowrap;
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
   color:rgba(255,255,255,.92); transition:color .25s, transform .25s var(--ease);
 }
 .topbar__item svg{ width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
@@ -256,8 +256,10 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 /* =========================================================================
    HEADER
    ========================================================================= */
+/* z-index acima da topbar: o menu lateral mora dentro do header, então sem
+   isso ele abriria POR BAIXO da faixa vermelha. */
 .hdr{
-  position:sticky; top:0; z-index:100;
+  position:sticky; top:0; z-index:110;
   background:rgba(255,255,255,.82);
   backdrop-filter:blur(18px) saturate(160%);
   -webkit-backdrop-filter:blur(18px) saturate(160%);
@@ -292,15 +294,19 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 .hdr__cta{ padding:12px 22px; font-size:.88rem; }
 
 .burger{
-  display:none; width:46px; height:46px; margin-left:auto;
+  position:relative; display:none; width:46px; height:46px; margin-left:auto;
   background:transparent; border:1.5px solid var(--line-2); border-radius:12px;
   cursor:pointer; padding:0; place-items:center;
 }
 .burger span{ display:block; width:20px; height:2px; background:var(--tx); border-radius:2px; transition:transform .35s var(--ease), opacity .25s; }
 .burger span + span{ margin-top:5px; }
-.burger.is-open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+/* as duas barras vão para o centro absoluto antes de girar: no grid elas
+   cruzavam fora do meio e o "X" saía com cara de ">". */
+.burger.is-open span:nth-child(1),
+.burger.is-open span:nth-child(3){ position:absolute; top:50%; left:50%; margin:0; }
+.burger.is-open span:nth-child(1){ transform:translate(-50%,-50%) rotate(45deg); }
 .burger.is-open span:nth-child(2){ opacity:0; }
-.burger.is-open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+.burger.is-open span:nth-child(3){ transform:translate(-50%,-50%) rotate(-45deg); }
 
 /* =========================================================================
    HERO — claro, com painel vermelho
@@ -534,7 +540,7 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 .norms__label{ font-family:var(--mono); font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--tx-on-2); }
 .norms__nav{ display:flex; gap:8px; }
 .norms__nav button{
-  width:38px; height:38px; border-radius:50%; cursor:pointer; display:grid; place-items:center;
+  width:44px; height:44px; border-radius:50%; cursor:pointer; display:grid; place-items:center;
   background:transparent; border:1px solid var(--line-on2);
   transition:background .3s, border-color .3s, transform .3s var(--ease);
 }
@@ -691,12 +697,20 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
   position:relative; display:grid; grid-template-columns:250px 1fr; gap:54px; align-items:center;
   padding:44px 50px 46px; min-height:360px; overflow:hidden;
 }
-.classes__panels{ position:relative; }
+/* min-height é ajustada pelo JS para o painel mais alto; o valor aqui é só
+   a rede de segurança se o JS não rodar. */
+.classes__panels{ position:relative; min-height:170px; }
 .classes__panel{
-  position:absolute; inset:0; opacity:0; visibility:hidden;
-  transition:opacity .5s, visibility .5s;
+  position:absolute; top:0; left:0; right:0;
+  opacity:0; visibility:hidden;
+  transition:opacity .24s ease, visibility .24s;
 }
-.classes__panel.is-on{ position:relative; opacity:1; visibility:visible; }
+/* o que sai some ANTES de o que entra aparecer — se os dois cruzarem no
+   mesmo instante, os dois textos ficam sobrepostos e parece quebrado. */
+.classes__panel.is-on{
+  opacity:1; visibility:visible;
+  transition:opacity .5s var(--ease-o) .24s, visibility 0s;
+}
 /* letra da classe como marca d'água — ocupa o vazio à direita */
 .classes__panel::before{
   content:attr(data-letter); position:absolute; right:-2%; top:50%;
@@ -706,7 +720,30 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 }
 .classes__panel h3{ position:relative; font-size:clamp(1.55rem,3vw,2.15rem); margin-bottom:14px; }
 .classes__panel p{ position:relative; color:var(--tx-2); font-size:1.03rem; max-width:50ch; }
-.classes__panel.is-on h3,.classes__panel.is-on p{ animation:fadeUp .75s var(--ease-o) both .12s; }
+
+/* agente extintor indicado por classe */
+.agents{ position:relative; margin-top:24px; }
+.agents__lb{
+  display:block; margin-bottom:11px;
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--tx-3);
+}
+.agents ul{ display:flex; flex-wrap:wrap; gap:8px; }
+.agents li{
+  padding:8px 15px; background:#fff; border:1px solid var(--line);
+  clip-path:polygon(0 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%);
+  font-family:var(--mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tx);
+  transition:border-color .3s, transform .35s var(--ease), color .3s;
+}
+.agents li:hover{ border-color:var(--red); color:var(--red); transform:translateY(-2px); }
+.classes__panel.is-on .agents{ animation:fadeUp .7s var(--ease-o) both .34s; }
+
+/* CTA fixo da seção — não troca junto com a classe */
+.classes__cta{
+  display:flex; align-items:center; flex-wrap:wrap; gap:18px;
+  margin-top:30px; padding-top:26px; border-top:1px solid var(--line);
+}
+.classes__cta p{ flex:1 1 220px; min-width:0; color:var(--tx-2); font-size:.92rem; }
+.classes__panel.is-on h3,.classes__panel.is-on p{ animation:fadeUp .7s var(--ease-o) both .26s; }
 
 /* ---- extintor em SVG: um só, com o selo morfando entre as classes ----
    Redesenhado do zero em vetor: a arte antiga era um PNG chapado e não
@@ -1015,8 +1052,8 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 .ftr__slogan em{ font-style:normal; font-family:var(--disp); font-weight:800; font-size:.95rem; letter-spacing:-.02em; color:var(--red-3); }
 .ftr__brand p{ color:var(--tx-on-2); font-size:.92rem; max-width:38ch; }
 .ftr h4{ font-family:var(--mono); font-weight:500; font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:#fff; margin-bottom:18px; }
-.ftr__nav,.ftr__col{ display:grid; gap:9px; align-content:start; }
-.ftr__nav a,.ftr__col a{ color:var(--tx-on-2); font-size:.92rem; transition:color .25s, transform .25s var(--ease); width:max-content; }
+.ftr__nav,.ftr__col{ display:grid; gap:2px; align-content:start; }
+.ftr__nav a,.ftr__col a{ color:var(--tx-on-2); font-size:.92rem; padding:8px 0; transition:color .25s, transform .25s var(--ease); width:max-content; }
 .ftr__nav a:hover,.ftr__col a:hover{ color:var(--red-3); transform:translateX(5px); }
 .ftr__col p{ color:var(--tx-on-2); font-size:.92rem; }
 .ftr__bar{
@@ -1071,6 +1108,11 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 }
 
 @media (max-width:900px){
+  /* backdrop-filter cria bloco de contenção para descendentes `fixed`: com
+     ele ligado, o menu lateral era medido contra o header (132px de altura)
+     em vez da tela inteira. No celular ele sai. */
+  .hdr{ backdrop-filter:none; -webkit-backdrop-filter:none; background:rgba(255,255,255,.97); }
+  .hdr.is-stuck{ background:#fff; }
   .hdr__cta{ display:none; }
   .burger{ display:grid; }
   .nav__ink{ display:none; }
@@ -1086,7 +1128,7 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
   }
   .nav.is-open{ transform:none; visibility:visible; }
   .nav > a{ padding:15px 12px; font-size:1.04rem; border-bottom:1px solid var(--line); border-radius:0; }
-  .nav__cta{ display:inline-flex; margin-top:24px; border-bottom:0; }
+  .nav > a.nav__cta{ display:inline-flex; justify-content:center; margin-top:24px; padding:17px 22px; border-bottom:0; border-radius:2px 14px 2px 14px; color:#fff; }
 
   .slide{ grid-template-columns:1fr; gap:26px; }
   .slide__art{ order:-1; min-height:0; }
@@ -1103,20 +1145,37 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
   .clients{ padding:84px 0; }
   .sec__head{ margin-bottom:44px; }
   .sec__head--row{ flex-direction:column; align-items:flex-start; }
-  .classes__stage{ grid-template-columns:1fr; gap:26px; padding:34px 26px 40px; text-align:center; min-height:0; }
-  .classes__panels{ min-height:170px; }
-  .classes__panel::before{ right:50%; transform:translate(50%,-50%); font-size:220px; }
+  .classes__stage{ grid-template-columns:1fr; gap:24px; padding:32px 24px 38px; text-align:center; min-height:0; }
+  .classes__panels{ min-height:260px; }
+  .classes__panel::before{ right:50%; transform:translate(50%,-50%); font-size:210px; }
   .classes__panel p{ margin:0 auto; }
-  .ext{ max-width:184px; }
+  .agents{ margin-top:18px; }
+  .agents ul{ justify-content:center; gap:6px; }
+  .agents li{ font-size:.62rem; padding:7px 12px; letter-spacing:.06em; }
+  .classes__cta{ flex-direction:column; align-items:stretch; text-align:center; margin-top:22px; padding-top:20px; gap:14px; }
+  .classes__cta .btn{ justify-content:center; }
+  .ext{ max-width:166px; }
+  .classes__tabs button{ padding:20px 4px 18px; }
   .classes__tabs button b{ font-size:1.45rem; }
-  .classes__tabs button span{ font-size:.58rem; letter-spacing:.1em; }
+  .classes__tabs button span{ font-size:.65rem; letter-spacing:.04em; }
   .cta__in{ flex-direction:column; align-items:flex-start; padding:56px 24px; }
 }
 
 @media (max-width:680px){
+  /* No celular a tipografia miúda desce demais: nada abaixo de ~11px, e
+     todo alvo tocável com pelo menos 40px de altura. */
+  .sec{ padding:68px 0; }
+  .clients{ padding:74px 0; }
+  .strip{ padding:76px 0 0; }
   .topbar__in{ justify-content:center; }
   .topbar__in > a.topbar__item:first-child,.topbar__hours{ display:none; }
-  .topbar__right{ gap:14px; }
+  .topbar__right{ gap:16px; }
+  .topbar__item{ font-size:.72rem; }
+  .slide__chips li{ font-size:.7rem; padding:9px 15px; }
+  .feat__chip{ font-size:.68rem; left:-4%; padding:12px 16px; }
+  .hero__dots button{ min-height:44px; min-width:46px; justify-content:center; }
+  .lnk{ padding:12px 0; }
+  .ftr__nav a,.ftr__col a{ padding:10px 0; }
   .diffs__grid{ grid-template-columns:1fr; }
   .diffs{ margin-top:-72px; }
   .strip__grid{ grid-template-columns:1fr; }
@@ -1133,6 +1192,7 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
   .map{ height:320px; }
   .hero__dots button span{ display:none; }
   .hero__dots button{ padding:10px 14px; }
-  .hero__slogan{ font-size:.68rem; letter-spacing:.18em; gap:10px; }
-  .hero__sloganRule{ width:36px; }
+  .hero__sloganTx{ font-size:.68rem; letter-spacing:.14em; padding:11px 2px 11px 14px; }
+  .hero__slogan em{ font-size:1.05rem; padding:0 16px 0 6px; }
+  .hero__sloganRule{ width:5px; }
 }

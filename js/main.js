@@ -456,6 +456,26 @@
     var cTabs = $$('.classes__tabs button', cUi);
     var cPanels = $$('.classes__panel', cUi);
     var cBadges = $$('.badge', cUi);
+    var cWrap = $('.classes__panels', cUi);
+
+    /* Todos os painéis são absolutos (senão o que sai e o que entra ficam
+       um por cima do outro durante a troca). Como absoluto não empurra o
+       contêiner, a altura vem do painel mais alto, medida aqui. */
+    function sizePanels() {
+      if (!cWrap) return;
+      cWrap.style.minHeight = '0px';
+      var max = 0;
+      cPanels.forEach(function (p) { max = Math.max(max, p.offsetHeight); });
+      cWrap.style.minHeight = max + 'px';
+    }
+    sizePanels();
+    window.addEventListener('load', sizePanels);
+    var cResize = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(cResize);
+      cResize = setTimeout(sizePanels, 180);
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizePanels);
     var cInk = $('#classesInk');
     var cColors = ['#00A24E', '#E10A14', '#1B6FD1', '#EFA400', '#15151D'];
     var ci = 0, cTimer = null, cPaused = false, cStarted = false;
