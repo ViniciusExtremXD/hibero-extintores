@@ -8,6 +8,7 @@
 
   var $  = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var raf = window.requestAnimationFrame.bind(window);
 
   /* ---------------------------------------------------------------------
      1. Rolagem suave própria.
@@ -24,20 +25,18 @@
   function smoothScrollTo(targetY, duration) {
     if (scrollAnim) cancelAnimationFrame(scrollAnim);
     var startY = window.pageYOffset;
-    var delta  = targetY - startY;
-    var max    = document.documentElement.scrollHeight - window.innerHeight;
-    if (targetY > max) { delta = max - startY; }
-    var dur = duration || Math.min(1100, Math.max(420, Math.abs(delta) * 0.55));
-    var t0  = null;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var delta = Math.min(targetY, max) - startY;
+    var dur = duration || Math.min(1200, Math.max(450, Math.abs(delta) * 0.55));
+    var t0 = null;
 
     function step(ts) {
       if (t0 === null) t0 = ts;
       var p = Math.min(1, (ts - t0) / dur);
       window.scrollTo(0, startY + delta * easeInOutCubic(p));
-      if (p < 1) scrollAnim = requestAnimationFrame(step);
-      else scrollAnim = null;
+      if (p < 1) scrollAnim = raf(step); else scrollAnim = null;
     }
-    scrollAnim = requestAnimationFrame(step);
+    scrollAnim = raf(step);
   }
 
   function headerOffset() {
@@ -77,28 +76,63 @@
   });
 
   /* ---------------------------------------------------------------------
-     3. Revelação ao rolar (stagger via setTimeout — usar transition-delay
-        deixaria o hover atrasado depois que o elemento já apareceu)
-     --------------------------------------------------------------------- */
-  var io = new IntersectionObserver(function (entries) {
-    var d = 0;
-    entries.forEach(function (en) {
-      if (!en.isIntersecting) return;
-      var el = en.target;
-      var wait = d; d += 90;
-      setTimeout(function () { el.classList.add('is-in'); }, wait);
-      io.unobserve(el);
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+     3. Revelação ao rolar.
 
-  $$('.reveal, .split').forEach(function (el) { io.observe(el); });
-  // o h1 do hero já está na tela: revela na hora
-  $$('.hero .split').forEach(function (el) { el.classList.add('is-in'); io.unobserve(el); });
+     Feito na mão, com checagem por rolagem, e não com IntersectionObserver:
+     o IO com rootMargin negativo pode simplesmente NÃO disparar quando o
+     usuário passa rápido por uma faixa curta (roda do mouse dá saltos), e
+     aí o conteúdo fica invisível para sempre. Aqui a regra é absoluta —
+     qualquer elemento cujo topo já cruzou 86% da tela está revelado —, o
+     que torna impossível sobrar bloco escondido.
+
+     O gatilho a 86% (e não assim que encosta na borda) é de propósito: a
+     entrada precisa acontecer DENTRO do campo de visão, senão a animação
+     termina fora da tela e a página parece estática.
+
+     Stagger por setTimeout — transition-delay atrasaria o hover depois.
+     --------------------------------------------------------------------- */
+  var revealPend = $$('.reveal, .split, .kicker, #clientsGrid');
+  var revealTicking = false;
+
+  function runReveal() {
+    revealTicking = false;
+    var vh = window.innerHeight;
+    var line = vh * 0.86;
+    var batch = 0;
+    for (var i = revealPend.length - 1; i >= 0; i--) {
+      var el = revealPend[i];
+      if (el.getBoundingClientRect().top >= line) continue;
+      revealPend.splice(i, 1);
+      (function (node, wait) {
+        setTimeout(function () { node.classList.add('is-in'); }, wait);
+      })(el, batch * 105);
+      batch++;
+    }
+  }
+  function queueReveal() {
+    if (!revealTicking) { revealTicking = true; raf(runReveal); }
+  }
+  window.addEventListener('scroll', queueReveal, { passive: true });
+  window.addEventListener('resize', queueReveal);
+  window.addEventListener('load', queueReveal);
+
+  // o que já está na primeira dobra revela na hora, sem espera
+  $$('.hero .split, .hero .kicker').forEach(function (el) {
+    el.classList.add('is-in');
+    var k = revealPend.indexOf(el);
+    if (k > -1) revealPend.splice(k, 1);
+  });
+  runReveal();
+
+  /* índices para escalonar os brilhos decorativos */
+  $$('.tile').forEach(function (t, i) { t.style.setProperty('--ti', i); });
+  $$('.cli').forEach(function (c, i) { c.style.setProperty('--ci', i); });
+  $$('.slide__chips li').forEach(function (li, i) { li.style.setProperty('--i', i % 4); });
 
   /* ---------------------------------------------------------------------
-     4. Header: sombra ao rolar, menu mobile, scrollspy
+     4. Header: sombra, menu mobile, scrollspy e indicador deslizante
      --------------------------------------------------------------------- */
-  var hdr = $('#hdr'), burger = $('#burger'), nav = $('#nav');
+  var hdr = $('#hdr'), burger = $('#burger'), nav = $('#nav'), navInk = $('#navInk');
 
   function closeMenu() {
     if (!nav) return;
@@ -119,139 +153,178 @@
 
   var navLinks = $$('.nav > a[href^="#"]');
   var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
-  var progress = $('.scroll-progress i');
+  var progBar = $('#progBar');
   var totop = $('#totop');
+  var activeIdx = -1;
+
+  function moveInk(el) {
+    if (!navInk || !el || window.innerWidth <= 900) return;
+    navInk.style.width = el.offsetWidth + 'px';
+    navInk.style.transform = 'translateX(' + el.offsetLeft + 'px)';
+    navInk.classList.add('is-on');
+  }
+
+  navLinks.forEach(function (a) {
+    a.addEventListener('mouseenter', function () { moveInk(a); });
+  });
+  if (nav) nav.addEventListener('mouseleave', function () { moveInk(navLinks[activeIdx]); });
 
   function onScroll() {
     var y = window.pageYOffset;
     if (hdr) hdr.classList.toggle('is-stuck', y > 8);
     if (totop) totop.classList.toggle('is-on', y > 700);
 
-    if (progress) {
+    if (progBar) {
       var max = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
+      progBar.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
     }
 
-    var probe = y + headerOffset() + 120, active = 0;
+    var probe = y + headerOffset() + 130, act = 0;
     for (var i = 0; i < sections.length; i++) {
-      if (sections[i] && sections[i].offsetTop <= probe) active = i;
+      if (sections[i] && sections[i].offsetTop <= probe) act = i;
     }
-    navLinks.forEach(function (a, i) { a.classList.toggle('is-active', i === active); });
+    if (act !== activeIdx) {
+      activeIdx = act;
+      navLinks.forEach(function (a, i) { a.classList.toggle('is-active', i === act); });
+      moveInk(navLinks[act]);
+    }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
+  window.addEventListener('resize', function () { onScroll(); moveInk(navLinks[activeIdx]); });
   onScroll();
+  setTimeout(function () { moveInk(navLinks[activeIdx < 0 ? 0 : activeIdx]); }, 350);
 
   if (totop) totop.addEventListener('click', function () { smoothScrollTo(0); });
 
   /* ---------------------------------------------------------------------
-     5. Hero: slider (5s por slide), partículas e brilho que segue o mouse
+     5. Parallax.
+     Escreve em --py e o CSS usa a propriedade `translate`, que é
+     independente de `transform` — assim o parallax convive com os
+     keyframes que já animam transform no mesmo elemento.
+     --------------------------------------------------------------------- */
+  var parItems = $$('[data-par]').map(function (el) {
+    return { el: el, k: parseFloat(el.dataset.par) || 0 };
+  });
+  var parTicking = false;
+
+  function parallax() {
+    var vh = window.innerHeight;
+    parItems.forEach(function (o) {
+      var r = o.el.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) return;
+      var mid = r.top + r.height / 2 - vh / 2;
+      o.el.style.setProperty('--py', (mid * o.k).toFixed(1) + 'px');
+    });
+    parTicking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!parTicking) { parTicking = true; raf(parallax); }
+  }, { passive: true });
+  parallax();
+
+  /* ---------------------------------------------------------------------
+     6. Botões magnéticos
+     --------------------------------------------------------------------- */
+  if (window.matchMedia('(pointer:fine)').matches) {
+    $$('.magnet').forEach(function (b) {
+      b.addEventListener('mousemove', function (e) {
+        var r = b.getBoundingClientRect();
+        var x = (e.clientX - r.left - r.width / 2) * 0.28;
+        var y = (e.clientY - r.top - r.height / 2) * 0.34;
+        b.style.translate = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';
+      });
+      b.addEventListener('mouseleave', function () { b.style.translate = '0 0'; });
+    });
+  }
+
+  /* ---------------------------------------------------------------------
+     7. Hero: slider de 5s + poeira em canvas
      --------------------------------------------------------------------- */
   var SLIDE_MS = 5000;
   var slides = $$('.slide');
-  var dots   = $$('#heroDots button');
+  var dots = $$('#heroDots button');
   var cur = 0, slideTimer = null;
 
-  $$('.slide__chips li').forEach(function (li, i) { li.style.setProperty('--i', i % 4); });
   dots.forEach(function (d) { d.style.setProperty('--dur', SLIDE_MS + 'ms'); });
 
   function goSlide(n) {
     cur = (n + slides.length) % slides.length;
     slides.forEach(function (s, i) { s.classList.toggle('is-active', i === cur); });
-    // trocar aria-selected reinicia sozinho a animação da barrinha (a regra
-    // do keyframe está presa a [aria-selected="true"]::after)
-    dots.forEach(function (d, i) {
-      d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
-    });
+    // trocar aria-selected reinicia sozinho a barrinha (o keyframe está
+    // preso a [aria-selected="true"]::after)
+    dots.forEach(function (d, i) { d.setAttribute('aria-selected', i === cur ? 'true' : 'false'); });
     restartSlides();
   }
-
   function restartSlides() {
     clearInterval(slideTimer);
     if (slides.length > 1) slideTimer = setInterval(function () { goSlide(cur + 1); }, SLIDE_MS);
   }
-
   dots.forEach(function (d) {
     d.addEventListener('click', function () { goSlide(parseInt(d.dataset.go, 10)); });
   });
   restartSlides();
-
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) clearInterval(slideTimer); else restartSlides();
   });
 
-  var glow = $('#heroGlow'), hero = $('.hero');
-  if (glow && hero && window.matchMedia('(pointer:fine)').matches) {
-    hero.addEventListener('mousemove', function (e) {
-      var r = hero.getBoundingClientRect();
-      glow.style.transform = 'translate(' + (e.clientX - r.left) + 'px,' + (e.clientY - r.top) + 'px)';
-    });
-  }
-
-  /* --- partículas: brasas subindo, bem discretas --- */
-  var cv = $('#sparks');
+  /* poeira: pontinhos vermelhos subindo devagar, discretos sobre o claro */
+  var cv = $('#dust');
   if (cv && cv.getContext) {
-    var ctx = cv.getContext('2d'), parts = [], dpr = Math.min(2, window.devicePixelRatio || 1), W = 0, H = 0;
-
-    function sizeCanvas() {
-      var r = cv.getBoundingClientRect();
-      W = r.width; H = r.height;
-      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var want = Math.max(26, Math.min(70, Math.round(W / 22)));
-      parts = [];
-      for (var i = 0; i < want; i++) parts.push(mkPart(true));
-    }
+    var ctx = cv.getContext('2d'), parts = [], dpr = Math.min(2, window.devicePixelRatio || 1), W = 0, H = 0, dustRaf = null;
 
     function mkPart(spread) {
       return {
         x: Math.random() * W,
         y: spread ? Math.random() * H : H + 12,
-        r: 0.6 + Math.random() * 1.9,
-        vy: 0.16 + Math.random() * 0.55,
-        vx: (Math.random() - 0.5) * 0.24,
-        a: 0.12 + Math.random() * 0.55,
-        hot: Math.random() > 0.55,
+        r: 0.8 + Math.random() * 2.2,
+        vy: 0.12 + Math.random() * 0.42,
+        vx: (Math.random() - 0.5) * 0.2,
+        a: 0.06 + Math.random() * 0.22,
+        hot: Math.random() > 0.5,
         ph: Math.random() * Math.PI * 2
       };
     }
-
-    var raf = null;
+    function sizeCanvas() {
+      var r = cv.getBoundingClientRect();
+      W = r.width; H = r.height;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var want = Math.max(24, Math.min(64, Math.round(W / 24)));
+      parts = [];
+      for (var i = 0; i < want; i++) parts.push(mkPart(true));
+    }
     function draw() {
       ctx.clearRect(0, 0, W, H);
       for (var i = 0; i < parts.length; i++) {
         var p = parts[i];
-        p.y -= p.vy;
-        p.ph += 0.02;
-        p.x += p.vx + Math.sin(p.ph) * 0.22;
+        p.y -= p.vy; p.ph += 0.018;
+        p.x += p.vx + Math.sin(p.ph) * 0.2;
         if (p.y < -14) { parts[i] = mkPart(false); continue; }
         var fade = p.y / H;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = p.hot
-          ? 'rgba(245,17,26,' + (p.a * fade).toFixed(3) + ')'
-          : 'rgba(255,214,180,' + (p.a * fade * 0.65).toFixed(3) + ')';
+          ? 'rgba(225,10,20,' + (p.a * fade).toFixed(3) + ')'
+          : 'rgba(14,14,20,' + (p.a * fade * 0.5).toFixed(3) + ')';
         ctx.fill();
       }
-      raf = requestAnimationFrame(draw);
+      dustRaf = raf(draw);
     }
-
     sizeCanvas();
     window.addEventListener('resize', sizeCanvas);
     draw();
     document.addEventListener('visibilitychange', function () {
-      if (document.hidden) { cancelAnimationFrame(raf); raf = null; }
-      else if (!raf) draw();
+      if (document.hidden) { cancelAnimationFrame(dustRaf); dustRaf = null; }
+      else if (!dustRaf) draw();
     });
   }
 
   /* ---------------------------------------------------------------------
-     6. Diferenciais: destaque rotativo a cada 3s (pausa no hover)
+     8. Diferenciais: destaque rotativo a cada 3s (pausa no hover)
      --------------------------------------------------------------------- */
   var diffs = $$('#diffs .diff');
   if (diffs.length) {
     var di = 0, dTimer = null, dPaused = false, dStarted = false;
-
     function setDiff(n) {
       di = (n + diffs.length) % diffs.length;
       diffs.forEach(function (c, i) {
@@ -259,24 +332,97 @@
         if (i === di) { void c.offsetWidth; c.classList.add('is-on'); }
       });
     }
-    function startDiff() {
-      clearInterval(dTimer);
-      dTimer = setInterval(function () { if (!dPaused) setDiff(di + 1); }, 3000);
-    }
-
     diffs.forEach(function (c, i) {
       c.addEventListener('mouseenter', function () { dPaused = true; setDiff(i); });
       c.addEventListener('mouseleave', function () { dPaused = false; });
     });
-
     var dIO = new IntersectionObserver(function (en) {
-      if (en[0].isIntersecting && !dStarted) { dStarted = true; setDiff(0); startDiff(); }
-    }, { threshold: 0.3 });
+      if (en[0].isIntersecting && !dStarted) {
+        dStarted = true; setDiff(0);
+        dTimer = setInterval(function () { if (!dPaused) setDiff(di + 1); }, 3000);
+      }
+    }, { threshold: 0.25 });
     dIO.observe($('#diffs'));
   }
 
   /* ---------------------------------------------------------------------
-     7. Contadores
+     9. Carrossel genérico (normas e produtos)
+     --------------------------------------------------------------------- */
+  function makeCarousel(opts) {
+    var view = $(opts.view), track = $(opts.track);
+    if (!view || !track) return null;
+    var prev = opts.prev && $(opts.prev), next = opts.next && $(opts.next);
+    var idx = 0, timer = null, paused = false;
+
+    function step() {
+      var card = track.firstElementChild;
+      if (!card) return 320;
+      var gap = parseFloat(getComputedStyle(track).gap) || 16;
+      return card.getBoundingClientRect().width + gap;
+    }
+    function maxIdx() {
+      var n = track.children.length;
+      var visible = Math.max(1, Math.floor(view.clientWidth / step()));
+      return Math.max(0, n - visible);
+    }
+    function apply(animate) {
+      track.style.transition = animate === false ? 'none' : '';
+      track.style.transform = 'translateX(' + (-idx * step()) + 'px)';
+      if (prev) prev.disabled = !opts.loop && idx <= 0;
+      if (next) next.disabled = !opts.loop && idx >= maxIdx();
+    }
+    function go(n) {
+      var m = maxIdx();
+      if (opts.loop) idx = n > m ? 0 : (n < 0 ? m : n);
+      else idx = Math.max(0, Math.min(m, n));
+      apply(true);
+    }
+    function start() {
+      if (!opts.every) return;
+      clearInterval(timer);
+      timer = setInterval(function () { if (!paused) go(idx + 1); }, opts.every);
+    }
+
+    if (prev) prev.addEventListener('click', function () { go(idx - 1); start(); });
+    if (next) next.addEventListener('click', function () { go(idx + 1); start(); });
+    view.addEventListener('mouseenter', function () { paused = true; });
+    view.addEventListener('mouseleave', function () { paused = false; });
+    window.addEventListener('resize', function () { go(idx); });
+    apply(false);
+    start();
+
+    // arrastar (mouse e toque)
+    if (opts.drag) {
+      var down = false, startX = 0, startT = 0, moved = 0;
+      view.addEventListener('pointerdown', function (e) {
+        down = true; moved = 0; startX = e.clientX; startT = -idx * step();
+        view.classList.add('is-drag'); track.style.transition = 'none';
+        if (view.setPointerCapture) view.setPointerCapture(e.pointerId);
+      });
+      view.addEventListener('pointermove', function (e) {
+        if (!down) return;
+        moved = e.clientX - startX;
+        track.style.transform = 'translateX(' + (startT + moved) + 'px)';
+      });
+      var end = function () {
+        if (!down) return;
+        down = false; view.classList.remove('is-drag'); track.style.transition = '';
+        if (Math.abs(moved) > step() * 0.22) go(idx + (moved < 0 ? 1 : -1));
+        else apply(true);
+      };
+      view.addEventListener('pointerup', end);
+      view.addEventListener('pointercancel', end);
+      view.addEventListener('pointerleave', end);
+      view.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    }
+    return { go: go };
+  }
+
+  makeCarousel({ view: '.norms__view', track: '#normTrack', prev: '#normPrev', next: '#normNext', every: 3200, loop: true });
+  makeCarousel({ view: '#prodCarou', track: '#prodTrack', prev: '#prodPrev', next: '#prodNext', every: 5200, loop: true, drag: true });
+
+  /* ---------------------------------------------------------------------
+     10. Contadores
      --------------------------------------------------------------------- */
   var statsBox = $('#stats');
   if (statsBox) {
@@ -286,137 +432,85 @@
       $$('b[data-count]', statsBox).forEach(function (b, i) {
         var to = parseInt(b.dataset.count, 10);
         var pre = b.dataset.pre || '', suf = b.dataset.suffix || '';
-        var t0 = null, dur = 1700 + i * 220;
+        var t0 = null, dur = 1800 + i * 240;
         function tick(ts) {
           if (t0 === null) t0 = ts;
           var p = Math.min(1, (ts - t0) / dur);
           var v = Math.round(to * (1 - Math.pow(1 - p, 3)));
           b.textContent = pre + v.toLocaleString('pt-BR') + suf;
-          if (p < 1) requestAnimationFrame(tick);
+          if (p < 1) raf(tick);
         }
-        requestAnimationFrame(tick);
+        raf(tick);
       });
-    }, { threshold: 0.4 });
+    }, { threshold: 0.35 });
     sIO.observe(statsBox);
   }
 
   /* ---------------------------------------------------------------------
-     8. Classes de incêndio: abas
+     11. Classes de incêndio: abas
      --------------------------------------------------------------------- */
   var cTabs = $$('#classes-ui .classes__tabs button');
   var cPanels = $$('#classes-ui .classes__panel');
   var cInk = $('#classesInk');
-
-  function setClass(n) {
-    cTabs.forEach(function (t, i) {
-      t.classList.toggle('is-active', i === n);
-      t.setAttribute('aria-selected', i === n ? 'true' : 'false');
-    });
-    cPanels.forEach(function (p, i) { p.classList.toggle('is-on', i === n); });
-    if (cInk) cInk.style.transform = 'translateX(' + (n * 100) + '%)';
-  }
-  cTabs.forEach(function (t, i) { t.addEventListener('click', function () { setClass(i); }); });
-
-  /* ---------------------------------------------------------------------
-     9. Carrossel de produtos: setas, arrastar e roda do mouse
-     --------------------------------------------------------------------- */
-  var carou = $('#prodCarou'), track = $('#prodTrack');
-  if (carou && track) {
-    var prev = $('#prodPrev'), next = $('#prodNext');
-    var idx = 0;
-
-    function step() {
-      var card = track.querySelector('.prod');
-      if (!card) return 360;
-      var gap = parseFloat(getComputedStyle(track).gap) || 20;
-      return card.getBoundingClientRect().width + gap;
-    }
-    function maxIdx() {
-      var cards = track.querySelectorAll('.prod').length;
-      var visible = Math.max(1, Math.floor(carou.clientWidth / step()));
-      return Math.max(0, cards - visible);
-    }
-    function apply(animate) {
-      track.style.transition = animate === false ? 'none' : '';
-      track.style.transform = 'translateX(' + (-idx * step()) + 'px)';
-      if (prev) prev.disabled = idx <= 0;
-      if (next) next.disabled = idx >= maxIdx();
-    }
-    function go(n) { idx = Math.max(0, Math.min(maxIdx(), n)); apply(true); }
-
-    if (prev) prev.addEventListener('click', function () { go(idx - 1); });
-    if (next) next.addEventListener('click', function () { go(idx + 1); });
-    window.addEventListener('resize', function () { go(idx); });
-    apply(false);
-
-    // arrastar (mouse e toque)
-    var down = false, startX = 0, startT = 0, moved = 0;
-    function px(e) { return e.touches ? e.touches[0].clientX : e.clientX; }
-
-    carou.addEventListener('pointerdown', function (e) {
-      down = true; moved = 0; startX = px(e); startT = -idx * step();
-      carou.classList.add('is-drag'); track.style.transition = 'none';
-      carou.setPointerCapture && carou.setPointerCapture(e.pointerId);
-    });
-    carou.addEventListener('pointermove', function (e) {
-      if (!down) return;
-      moved = px(e) - startX;
-      track.style.transform = 'translateX(' + (startT + moved) + 'px)';
-    });
-    function endDrag() {
-      if (!down) return;
-      down = false; carou.classList.remove('is-drag'); track.style.transition = '';
-      if (Math.abs(moved) > step() * 0.22) go(idx + (moved < 0 ? 1 : -1));
-      else apply(true);
-    }
-    carou.addEventListener('pointerup', endDrag);
-    carou.addEventListener('pointercancel', endDrag);
-    carou.addEventListener('pointerleave', endDrag);
-    carou.addEventListener('dragstart', function (e) { e.preventDefault(); });
-  }
-
-  /* ---------------------------------------------------------------------
-     10. FAQ: só um aberto por vez + altura animada
-     --------------------------------------------------------------------- */
-  $$('#faq-ui .faq__i').forEach(function (d) {
-    var sum = d.querySelector('summary');
-    var body = d.querySelector('.faq__a');
-    sum.addEventListener('click', function (e) {
-      e.preventDefault();
-      var willOpen = !d.open;
-      $$('#faq-ui .faq__i').forEach(function (o) {
-        if (o !== d && o.open) { collapse(o); }
+  cTabs.forEach(function (t, i) {
+    t.addEventListener('click', function () {
+      cTabs.forEach(function (o, j) {
+        o.classList.toggle('is-active', j === i);
+        o.setAttribute('aria-selected', j === i ? 'true' : 'false');
       });
-      if (willOpen) expand(d); else collapse(d);
+      cPanels.forEach(function (p, j) { p.classList.toggle('is-on', j === i); });
+      if (cInk) cInk.style.transform = 'translateX(' + (i * 100) + '%)';
     });
+  });
+
+  /* ---------------------------------------------------------------------
+     12. Brilho que segue o cursor na faixa de clientes
+     --------------------------------------------------------------------- */
+  var cliGlow = $('#clientsGlow'), cliSec = $('#clientes');
+  if (cliGlow && cliSec && window.matchMedia('(pointer:fine)').matches) {
+    cliSec.addEventListener('mousemove', function (e) {
+      var r = cliSec.getBoundingClientRect();
+      cliGlow.style.transform = 'translate(' + (e.clientX - r.left) + 'px,' + (e.clientY - r.top) + 'px)';
+    });
+  }
+
+  /* ---------------------------------------------------------------------
+     13. FAQ: só um aberto por vez + altura animada
+     --------------------------------------------------------------------- */
+  var faqItems = $$('#faq-ui .faq__i');
+  faqItems.forEach(function (d) {
+    var sum = d.querySelector('summary');
 
     function expand(el) {
       el.open = true;
       var b = el.querySelector('.faq__a');
-      var h = b.scrollHeight;
-      b.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }],
-        { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)' });
+      b.animate([{ height: '0px', opacity: 0 }, { height: b.scrollHeight + 'px', opacity: 1 }],
+        { duration: 440, easing: 'cubic-bezier(.22,1,.36,1)' });
     }
     function collapse(el) {
       var b = el.querySelector('.faq__a');
-      var h = b.scrollHeight;
-      var an = b.animate([{ height: h + 'px', opacity: 1 }, { height: '0px', opacity: 0 }],
+      var an = b.animate([{ height: b.scrollHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }],
         { duration: 320, easing: 'cubic-bezier(.16,.84,.32,1)' });
       an.onfinish = function () { el.open = false; };
     }
-    void body;
+
+    sum.addEventListener('click', function (e) {
+      e.preventDefault();
+      var willOpen = !d.open;
+      faqItems.forEach(function (o) { if (o !== d && o.open) collapse(o); });
+      if (willOpen) expand(d); else collapse(d);
+    });
   });
 
   /* ---------------------------------------------------------------------
-     11. Formulário → WhatsApp (sem backend)
+     14. Formulário → WhatsApp (sem backend)
      --------------------------------------------------------------------- */
   var WHATS = '5511972325189';
   var form = $('#form');
   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var f = form.elements;
-      var bad = false;
+      var f = form.elements, bad = false;
       ['nome', 'fone'].forEach(function (n) {
         var el = f[n];
         var ok = el.value.trim().length > 2;
@@ -435,14 +529,13 @@
 
       window.open('https://wa.me/' + WHATS + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
     });
-
     $$('#form input, #form textarea').forEach(function (el) {
       el.addEventListener('input', function () { el.classList.remove('is-bad'); });
     });
   }
 
   /* ---------------------------------------------------------------------
-     12. Miudezas
+     15. Miudezas
      --------------------------------------------------------------------- */
   var yr = $('#yr');
   if (yr) yr.textContent = new Date().getFullYear();
