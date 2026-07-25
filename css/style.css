@@ -75,7 +75,14 @@ p{ margin:0; }
 ul{ margin:0; padding:0; list-style:none; }
 
 /* A Plus Jakarta tem espaço estreito; com tracking negativo as palavras colam. */
-h1,h2,h3,h4{ font-family:var(--disp); font-weight:800; line-height:1.06; letter-spacing:-.028em; word-spacing:.08em; margin:0; }
+/* `balance` distribui as linhas do título em vez de deixar uma palavra
+   solta na última; `pretty` faz o mesmo com o texto corrido. */
+h1,h2,h3,h4{
+  font-family:var(--disp); font-weight:800; line-height:1.06;
+  letter-spacing:-.028em; word-spacing:.08em; margin:0;
+  text-wrap:balance;
+}
+p,li{ text-wrap:pretty; }
 
 ::selection{ background:var(--red); color:#fff; }
 
@@ -181,7 +188,7 @@ h1,h2,h3,h4{ font-family:var(--disp); font-weight:800; line-height:1.06; letter-
 
 .sec__head{ max-width:780px; margin-bottom:60px; }
 .sec__head h2{ font-size:clamp(2.05rem,4.6vw,3.3rem); }
-.sec__lead{ margin-top:22px; color:var(--tx-2); font-size:1.06rem; max-width:62ch; }
+.sec__lead{ margin-top:22px; color:var(--tx-2); font-size:1.06rem; max-width:62ch; text-wrap:balance; }
 .sec__head--center{ margin-left:auto; margin-right:auto; text-align:center; }
 .sec__head--center .kicker{ justify-content:center; }
 .sec__head--row{ display:flex; align-items:flex-end; justify-content:space-between; gap:32px; max-width:none; }
@@ -1047,7 +1054,7 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 .ftr{ background:var(--ink); color:var(--tx-on); padding:78px 0 0; }
 .ftr__in{ display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:44px; padding-bottom:54px; }
 .ftr__brand img{ height:40px; width:auto; margin-bottom:20px; }
-.ftr__slogan{ font-family:var(--mono); font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--tx-on-2); margin-bottom:14px; }
+.ftr__slogan{ font-family:var(--mono); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tx-on-2); margin-bottom:14px; text-wrap:balance; }
 .ftr__slogan b{ color:#fff; font-weight:600; }
 .ftr__slogan em{ font-style:normal; font-family:var(--disp); font-weight:800; font-size:.95rem; letter-spacing:-.02em; color:var(--red-3); }
 .ftr__brand p{ color:var(--tx-on-2); font-size:.92rem; max-width:38ch; }
@@ -1094,6 +1101,16 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 /* =========================================================================
    RESPONSIVO
    ========================================================================= */
+/* A topbar tem overflow:hidden — se o conteúdo não couber, ele é CORTADO
+   em vez de quebrar. Some com um item por vez antes de chegar nesse ponto. */
+@media (max-width:1000px){
+  .topbar__in > a.topbar__item:first-child{ display:none; }
+  .topbar__in{ justify-content:flex-end; }
+}
+@media (max-width:840px){
+  .topbar__hours{ display:none; }
+}
+
 @media (max-width:1080px){
   .cards{ grid-template-columns:repeat(2,1fr); }
   .diffs__grid{ grid-template-columns:repeat(2,1fr); }
@@ -1168,7 +1185,6 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
   .clients{ padding:74px 0; }
   .strip{ padding:76px 0 0; }
   .topbar__in{ justify-content:center; }
-  .topbar__in > a.topbar__item:first-child,.topbar__hours{ display:none; }
   .topbar__right{ gap:16px; }
   .topbar__item{ font-size:.72rem; }
   .slide__chips li{ font-size:.7rem; padding:9px 15px; }
