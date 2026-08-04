@@ -552,7 +552,7 @@
   /* ---------------------------------------------------------------------
      14. Formulário → WhatsApp (sem backend)
      --------------------------------------------------------------------- */
-  var WHATS = '5511972325189';
+  var WHATS = '5511944578141'; // Valéria (extintores/mangueiras) — só usado se o select sumir
   var form = $('#form');
   if (form) {
     form.addEventListener('submit', function (e) {
@@ -574,7 +574,9 @@
         '*Assunto:* ' + f.assunto.value + '\n' +
         (f.msg.value.trim() ? '\n' + f.msg.value.trim() : '');
 
-      window.open('https://wa.me/' + WHATS + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
+      // quem recebe é escolha de quem preenche, não adivinhação nossa
+      var destino = (f.destino && f.destino.value) || WHATS;
+      window.open('https://wa.me/' + destino + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
     });
     $$('#form input, #form textarea').forEach(function (el) {
       el.addEventListener('input', function () { el.classList.remove('is-bad'); });
