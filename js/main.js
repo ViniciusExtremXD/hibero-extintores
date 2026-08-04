@@ -584,7 +584,62 @@
   }
 
   /* ---------------------------------------------------------------------
-     15. Miudezas
+     15. Aviso de cookies + Consent Mode.
+     A escolha fica no localStorage do próprio visitante — não há servidor
+     aqui para guardar isso. Enquanto ele não decide, o consentimento
+     declarado no <head> segue negado e o Google não grava cookie de
+     publicidade.
+     --------------------------------------------------------------------- */
+  var CK_KEY = 'hibero:cookies';
+  var ck = $('#ck');
+
+  function lerEscolha() {
+    try { return localStorage.getItem(CK_KEY); } catch (e) { return null; }
+  }
+  function aplicarConsentimento(escolha) {
+    if (typeof window.gtag !== 'function') return;
+    var v = escolha === 'aceito' ? 'granted' : 'denied';
+    window.gtag('consent', 'update', {
+      ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v
+    });
+  }
+  function mostrarBanner() {
+    if (!ck) return;
+    ck.hidden = false;
+    // 2 quadros para o transform sair do estado inicial e a entrada animar
+    raf(function () { raf(function () { ck.classList.add('is-on'); }); });
+  }
+  function esconderBanner() {
+    if (!ck) return;
+    ck.classList.remove('is-on');
+    setTimeout(function () { ck.hidden = true; }, 620);
+  }
+
+  if (ck) {
+    if (!lerEscolha()) setTimeout(mostrarBanner, 900);
+
+    $$('#ck [data-ck]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var escolha = btn.dataset.ck;
+        try { localStorage.setItem(CK_KEY, escolha); } catch (e) {}
+        aplicarConsentimento(escolha);
+        esconderBanner();
+      });
+    });
+  }
+
+  // botão "rever minha escolha", na página da política
+  var reabrir = $('#reabrirCookies');
+  if (reabrir) {
+    reabrir.addEventListener('click', function () {
+      try { localStorage.removeItem(CK_KEY); } catch (e) {}
+      aplicarConsentimento('recusado');
+      mostrarBanner();
+    });
+  }
+
+  /* ---------------------------------------------------------------------
+     16. Miudezas
      --------------------------------------------------------------------- */
   var yr = $('#yr');
   if (yr) yr.textContent = new Date().getFullYear();

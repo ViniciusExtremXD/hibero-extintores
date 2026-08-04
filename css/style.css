@@ -1156,6 +1156,70 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 .totop:hover svg{ stroke:#fff; }
 
 /* =========================================================================
+   PÁGINA LEGAL (política de privacidade)
+   ========================================================================= */
+.legal{ padding-top:84px; }
+.legal h1{ font-size:clamp(2.1rem,4.6vw,3.2rem); }
+.legal__date{
+  margin-top:18px; font-family:var(--mono); font-size:.7rem;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--tx-3);
+}
+.legal__body{ max-width:76ch; }
+.legal__body h2{
+  font-size:clamp(1.2rem,2.2vw,1.5rem); margin:44px 0 14px; padding-top:24px;
+  border-top:1px solid var(--line);
+}
+.legal__body h2:first-child{ margin-top:0; padding-top:0; border-top:0; }
+.legal__body p{ color:var(--tx-2); margin-bottom:14px; }
+.legal__body b{ color:var(--tx); font-weight:600; }
+.legal__body a{ color:var(--red); text-decoration:underline; text-underline-offset:3px; }
+.legal__body a:hover{ color:var(--red-2); }
+.legal__ul{ display:grid; gap:11px; margin:0 0 16px; }
+.legal__ul li{ position:relative; padding-left:22px; color:var(--tx-2); }
+.legal__ul li::before{
+  content:""; position:absolute; left:0; top:.62em; width:8px; height:2px;
+  border-radius:1px; background:var(--red);
+}
+.legal__body .btn{ margin-top:6px; }
+.legal__back{ margin-top:48px; padding-top:26px; border-top:1px solid var(--line); }
+
+/* =========================================================================
+   AVISO DE COOKIES
+   ========================================================================= */
+.ck{
+  position:fixed; left:0; right:0; bottom:0; z-index:95;
+  padding:0 16px 16px;
+  transform:translateY(120%); transition:transform .6s var(--ease-o);
+}
+.ck.is-on{ transform:none; }
+.ck[hidden]{ display:none; }
+.ck__in{
+  max-width:var(--wrap); margin:0 auto;
+  display:flex; align-items:center; gap:26px; flex-wrap:wrap;
+  padding:22px 26px; background:#fff;
+  border:1px solid var(--line); border-top:3px solid var(--red);
+  clip-path:polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+  box-shadow:0 30px 70px -30px rgba(14,14,20,.55);
+}
+.ck__tx{ flex:1 1 380px; min-width:0; }
+.ck__lb{
+  display:inline-flex; align-items:center; gap:9px; margin-bottom:7px;
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; color:var(--tx-3);
+}
+.ck__lb i{ width:22px; height:2px; background:var(--red); }
+.ck__tx p{ font-size:.92rem; color:var(--tx-2); }
+.ck__tx a{ color:var(--red); text-decoration:underline; text-underline-offset:3px; }
+.ck__btns{ display:flex; gap:10px; flex:0 0 auto; }
+.ck__btns .btn{ padding:13px 24px; }
+
+@media (max-width:680px){
+  .ck{ padding:0 10px 10px; }
+  .ck__in{ padding:20px; gap:16px; }
+  .ck__btns{ width:100%; }
+  .ck__btns .btn{ flex:1; justify-content:center; }
+}
+
+/* =========================================================================
    RESPONSIVO
    ========================================================================= */
 /* A topbar tem overflow:hidden — se o conteúdo não couber, ele é CORTADO

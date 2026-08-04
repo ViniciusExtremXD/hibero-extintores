@@ -4,13 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google tag (gtag.js) — Google Ads AW-18241339553 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18241339553"></script>
+  <!-- Google tag (gtag.js) — Google Ads AW-18241339553, com Consent Mode v2.
+       Este bloco roda ANTES do gtag.js carregar: o consentimento nasce negado,
+       então nenhum cookie de publicidade é gravado enquanto o visitante não
+       decidir. Se ele já aceitou numa visita anterior, liberamos na hora. -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 500
+    });
+    try {
+      if (localStorage.getItem('hibero:cookies') === 'aceito') {
+        gtag('consent', 'update', {
+          ad_storage: 'granted', ad_user_data: 'granted',
+          ad_personalization: 'granted', analytics_storage: 'granted'
+        });
+      }
+    } catch (e) {}
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18241339553"></script>
+  <script>
     gtag('js', new Date());
-
     gtag('config', 'AW-18241339553');
   </script>
 
@@ -42,7 +61,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=3">
 
   <!-- Dados estruturados: negócio local -->
   <script type="application/ld+json">
@@ -921,7 +940,7 @@
 
   <div class="wrap ftr__bar">
     <p>© <span id="yr">2026</span> Hibero Extintores. Todos os direitos reservados.</p>
-    <p class="ftr__norms">INMETRO nº 110 · NBR 12779/2009 · NR-23 · IT-20 · NBR 13.434</p>
+    <p class="ftr__norms"><a href="politica-de-privacidade.html">Política de Privacidade</a> · INMETRO nº 110 · NBR 12779/2009 · NR-23 · IT-20 · NBR 13.434</p>
   </div>
 </footer>
 
@@ -934,6 +953,20 @@
 <!-- Voltar ao topo -->
 <button class="totop" id="totop" aria-label="Voltar ao topo"><svg viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></svg></button>
 
-<script src="js/main.js?v=2"></script>
+<!-- Aviso de cookies -->
+<div class="ck" id="ck" role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
+  <div class="ck__in">
+    <div class="ck__tx">
+      <p class="ck__lb"><i></i>Cookies</p>
+      <p>Usamos cookies de publicidade para medir os resultados dos nossos anúncios. Eles só são ativados se você aceitar. Veja a <a href="politica-de-privacidade.html">Política de Privacidade</a>.</p>
+    </div>
+    <div class="ck__btns">
+      <button class="btn btn--outline" type="button" data-ck="recusado">Recusar</button>
+      <button class="btn btn--red" type="button" data-ck="aceito">Aceitar</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js?v=3"></script>
 </body>
 </html>
