@@ -384,7 +384,10 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 }
 .slide.is-active{ opacity:1; visibility:visible; pointer-events:auto; position:relative; }
 
-.slide__text h1{ font-size:clamp(2.5rem,5.8vw,4.4rem); max-width:15ch; }
+/* só o 1º slide é h1: três h1 numa página (um por slide) confunde o
+   buscador sobre qual é a proposta principal. Os outros dois viram h2 com
+   o mesmo peso visual. */
+.slide__text h1,.slide__text h2{ font-size:clamp(2.5rem,5.8vw,4.4rem); max-width:15ch; }
 .slide__lead{ margin-top:24px; max-width:52ch; color:var(--tx-2); font-size:1.08rem; }
 .slide__chips{ display:flex; flex-wrap:wrap; gap:9px; margin-top:28px; }
 .slide__chips li{
