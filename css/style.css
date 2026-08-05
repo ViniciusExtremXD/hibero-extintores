@@ -877,7 +877,8 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
   transition:transform .5s var(--ease), background .4s;
 }
 .stat:hover{ transform:translateY(-6px); background:var(--red-wash); }
-.stat b{ display:block; font-family:var(--disp); font-size:clamp(1.75rem,3.4vw,2.5rem); font-weight:800; letter-spacing:-.035em; line-height:1; }
+/* nowrap: sem ele o "+ 8.000" quebrava em duas linhas e desalinhava os três */
+.stat b{ display:block; white-space:nowrap; font-family:var(--disp); font-size:clamp(1.6rem,3.1vw,2.4rem); font-weight:800; letter-spacing:-.035em; line-height:1; }
 .stat span{ display:block; margin-top:9px; font-family:var(--mono); font-size:.67rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tx-2); }
 
 .mvv{ display:grid; gap:14px; }
@@ -919,7 +920,7 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
 
 .clients__grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; perspective:1400px; }
 .cli{
-  position:relative; margin:0; padding:34px 24px 22px; min-height:180px; overflow:hidden;
+  position:relative; margin:0; padding:32px 24px 22px; min-height:206px; overflow:hidden;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;
   background:linear-gradient(165deg,#fff,#EEF0F5);
   clip-path:polygon(0 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%);
@@ -940,7 +941,10 @@ a.topbar__item:hover{ color:#fff; transform:translateY(-1px); }
   animation-delay:calc(var(--ci,0) * .7s);
 }
 @keyframes cliShine{ 0%{ transform:translateX(-130%); } 45%,100%{ transform:translateX(130%); } }
-.cli img{ max-height:74px; width:auto; transition:transform .5s var(--ease); }
+/* Exército e Marinha são logos VERTICAIS: presos só pela altura, ficavam
+   minúsculos ao lado dos horizontais (CPTM, Gerdau). Soltar a altura e
+   limitar pela largura iguala a presença óptica dos seis. */
+.cli img{ max-height:100px; max-width:86%; width:auto; object-fit:contain; transition:transform .5s var(--ease); }
 .cli figcaption{
   font-family:var(--mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase;
   color:var(--tx-3); text-align:center;
